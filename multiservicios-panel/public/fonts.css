@@ -1,0 +1,12 @@
+/* Public font declarations for ymira.
+   Put font files in `public/fonts/ymira.woff2` and `public/fonts/ymira.woff`
+*/
+
+@font-face {
+  font-family: 'ymira';
+  src: url('./fonts/ymira.woff2') format('woff2'),
+       url('./fonts/ymira.woff') format('woff');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
