@@ -15,7 +15,7 @@ export function useImagenes(productoId?: number | null, fetchAll: boolean = fals
     if (!productoId && !fetchAll) return;
     setLoading(true);
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL || "http://localhost:3000"}/api/v1/imagenes`, { credentials: 'include' });
+      const res = await fetch(`${process.env.REACT_APP_API_URL || "http://localhost:3001"}/api/v1/imagenes`, { credentials: 'include' });
       if (!res.ok) throw new Error('Error al obtener imágenes');
       const data = await res.json();
       
@@ -34,7 +34,7 @@ export function useImagenes(productoId?: number | null, fetchAll: boolean = fals
   }, [productoId]);
 
   const createImagen = async (imagen: Partial<Imagen>) => {
-    const res = await fetch(`${process.env.REACT_APP_API_URL || "http://localhost:3000"}/api/v1/imagenes`, {
+    const res = await fetch(`${process.env.REACT_APP_API_URL || "http://localhost:3001"}/api/v1/imagenes`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -46,7 +46,7 @@ export function useImagenes(productoId?: number | null, fetchAll: boolean = fals
   };
 
   const deleteImagen = async (id: number) => {
-    const res = await fetch(`${process.env.REACT_APP_API_URL || "http://localhost:3000"}/api/v1/imagenes/${id}`, {
+    const res = await fetch(`${process.env.REACT_APP_API_URL || "http://localhost:3001"}/api/v1/imagenes/${id}`, {
       method: 'DELETE',
       credentials: 'include',
     });

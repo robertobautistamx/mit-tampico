@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { Usuario } from '../../pages/users/users';
 
 // Ajusta esta URL o usa tu instancia de Axios si tienes una configurada
-const API_URL = 'http://localhost:3000/api/v1/usuarios';
+const API_URL = `${process.env.REACT_APP_API_URL || 'http://localhost:3001'}/api/v1/usuarios`;
 
 export const useUsuarios = () => {
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
