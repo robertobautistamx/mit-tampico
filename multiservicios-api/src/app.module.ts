@@ -12,6 +12,8 @@ import { CategoriasModule } from './modules/categorias/categorias.module';
 import { ImagenesModule } from './modules/imagenes/imagenes.module';
 import { BitacoraModule } from './modules/bitacora/bitacora.module';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
+import { ImageGalleryModule } from './modules/image_gallery/image_gallery.module';
+import { ImageGallery } from './models/image_gallery';
 
 @Module({
   imports: [
@@ -26,20 +28,21 @@ import { DashboardModule } from './modules/dashboard/dashboard.module';
         username: config.get<string>('DB_USERNAME', 'root'),
         password: config.get<string>('DB_PASSWORD', ''),
         database: config.get<string>('DB_DATABASE', 'test'),
-        entities: [Usuario, Producto, Categoria, Imagen, Bitacora],
+        entities: [Usuario, Producto, Categoria, Imagen, Bitacora, ImageGallery],
         synchronize: false,
         autoLoadEntities: true,
       }),
     }),
-    TypeOrmModule.forFeature([Usuario, Producto, Categoria, Imagen, Bitacora]),
+    TypeOrmModule.forFeature([Usuario, Producto, Categoria, Imagen, Bitacora, ImageGallery]),
     UsuariosModule,
     ProductosModule,
     CategoriasModule,
     ImagenesModule,
     BitacoraModule,
     DashboardModule,
+    ImageGalleryModule,
   ],
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule { }

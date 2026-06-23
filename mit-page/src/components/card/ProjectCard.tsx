@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 interface ProjectCardProps {
   title: string;
   img: string;
+  onClick?: () => void;
 }
 
 const PlusIcon = () => (
@@ -12,7 +13,7 @@ const PlusIcon = () => (
   </svg>
 );
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ title, img }) => {
+const ProjectCard: React.FC<ProjectCardProps> = ({ title, img, onClick }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const styles = {
@@ -51,7 +52,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ title, img }) => {
   };
 
   return (
-    <div style={styles.card} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+    <div style={{ ...styles.card, cursor: onClick ? 'pointer' : 'default' }} onClick={onClick} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
       <img src={img} alt={title} style={styles.img} />
       <div style={styles.overlay}>
         <span style={styles.title}>{title}</span>

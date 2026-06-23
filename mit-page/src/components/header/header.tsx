@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { navItems } from '../../modules/header.data';
+import { navItems } from '../../modules/header/header.data';
 import { getStyles } from './header.styles';
 import { DropdownIcon, MenuIcon, CartIcon, UserIcon, GlobeIcon } from './header.icons';
 
@@ -15,7 +15,7 @@ const Header: React.FC = () => {
       setIsScrolled(window.scrollY > 20);
 
       // Lógica de ScrollSpy (Detectar qué sección está visible)
-      const sections = [...navItems.map(item => item.id), 'contacto'];
+      const sections = [...navItems.map((item: any) => item.id), 'contacto'];
       for (const section of sections) {
         const element = document.getElementById(section);
         if (element) {
@@ -63,7 +63,7 @@ const Header: React.FC = () => {
   // Función para manejar el scroll suave al bajar/subir, evitando que el header tape el contenido
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string, hasSubItems: boolean = false) => {
     e.preventDefault();
-    
+
     if (id === 'inicio') {
       window.scrollTo({ top: 0, behavior: 'smooth' }); // Sube hasta el tope
     } else {
@@ -86,18 +86,30 @@ const Header: React.FC = () => {
 
   return (
     <header style={styles.header}>
+      <style>
+        {`
+          .dropdown-link:hover {
+            background-color: ${isMobile ? 'transparent' : '#F1F5F9'} !important;
+            color: #3B82F6 !important;
+            padding-left: ${isMobile ? '1.5rem' : '1.75rem'} !important;
+          }
+        `}
+      </style>
       <div style={styles.container}>
-        
+
         {/* LOGO */}
         <a href="#inicio" style={styles.logoContainer} onClick={(e) => handleNavClick(e, 'inicio')}>
-          <img src="/logo.png" alt="Logo MIT Tampico" style={{ height: '42px', width: 'auto', objectFit: 'contain' }} />
-          {/* <span style={styles.logoText}>MIT Tampico</span> (Opcional: puedes borrar esta línea si tu logo ya trae el texto) */}
+          <img src="/Logo-PNG.png" alt="Logo MIT Tampico" style={{ height: '42px', width: 'auto', objectFit: 'contain' }} />
+          <span style={styles.logoText}>
+            <span style={{ color: '#3B82F6', fontWeight: 800 }}>MIT</span>{' '}
+            <span style={{ color: '#F8FAFC', fontWeight: 500 }}>TAMPICO</span>
+          </span>
         </a>
 
         {/* BOTÓN MENÚ MÓVIL */}
         {isMobile && (
-          <button 
-            style={styles.hamburger} 
+          <button
+            style={styles.hamburger}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Alternar menú"
           >
@@ -123,14 +135,15 @@ const Header: React.FC = () => {
                   {item.label}
                   {item.subItems && <DropdownIcon />}
                 </a>
-                
+
                 {item.subItems && (
                   <div style={styles.dropdown(hoveredItem === item.id)}>
                     {item.subItems.map((sub: any) => (
-                      <a 
-                        key={sub.id} 
-                        href={`#${sub.id}`} 
-                        style={styles.dropdownLink} 
+                      <a
+                        key={sub.id}
+                        href={`#${sub.id}`}
+                        className="dropdown-link"
+                        style={styles.dropdownLink}
                         onClick={(e) => handleNavClick(e, sub.id)}
                       >
                         {sub.label}

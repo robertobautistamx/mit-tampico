@@ -1,6 +1,6 @@
 import React from 'react';
-import Button from '../components/buttons/Button';
-import Background from '../components/background/background';
+import Button from '../../components/buttons/Button';
+import Background from '../../components/background/background';
 
 const Inicio: React.FC = () => {
   const styles = {
@@ -70,18 +70,18 @@ const Inicio: React.FC = () => {
   return (
     <section id="inicio" style={styles.section}>
       <Background />
-      
+
       <div style={styles.content}>
         <span style={styles.badge}>Multiservicios Integrales</span>
         <h1 style={styles.title}>
-          Respaldo profesional para el <br/>
+          Respaldo profesional para el <br />
           <span style={styles.highlight}>Sector Industrial y Residencial</span>
         </h1>
         <p style={styles.subtitle}>
-          Transformamos y optimizamos tus instalaciones con ingeniería de primer nivel. 
+          Transformamos y optimizamos tus instalaciones con ingeniería de primer nivel.
           Un equipo especializado listo para garantizar eficiencia, seguridad y resultados tangibles.
         </p>
-        
+
         <div style={styles.buttonGroup}>
           <Button href="#servicios" variant="primary">Nuestros Servicios</Button>
           <Button href="#contacto" variant="outline">Contactar a un Asesor</Button>

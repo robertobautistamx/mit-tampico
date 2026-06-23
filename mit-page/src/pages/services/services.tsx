@@ -1,5 +1,5 @@
 import React from 'react';
-import Card from '../Card';
+import Card from '../../components/card/Card';
 
 const AcIcon = () => (
   <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -88,10 +88,10 @@ const Services: React.FC = () => {
           <span style={styles.badge}>Servicios</span>
           <h2 style={styles.title}>Lo que ofrecemos</h2>
         </div>
-        
+
         <div style={styles.grid}>
           {servicesData.map((service) => (
-            <Card 
+            <Card
               key={service.id}
               id={service.id}
               variant="service"

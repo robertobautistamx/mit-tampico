@@ -1,8 +1,8 @@
 import React from 'react';
-import Button from '../components/buttons/Button';
-import Input from '../Input';
-import Textarea from '../Textarea';
-import { FacebookIcon, InstagramIcon, WhatsAppIcon } from '../components/header/header.icons';
+import Button from '../../components/buttons/Button';
+import Input from '../../components/input/Input';
+import Textarea from '../../Textarea';
+import { FacebookIcon, InstagramIcon, WhatsAppIcon } from '../../components/header/header.icons';
 
 const Contact: React.FC = () => {
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
@@ -64,7 +64,7 @@ const Contact: React.FC = () => {
       flexDirection: 'column',
       gap: '1.5rem',
     } as React.CSSProperties,
-    
+
     // FOOTER STYLES
     footer: {
       backgroundColor: '#0F172A',
@@ -130,7 +130,7 @@ const Contact: React.FC = () => {
             <span style={styles.badge}>Contacto</span>
             <h2 style={styles.title}>Recibe información de nosotros</h2>
           </div>
-          
+
           <form style={styles.form} onSubmit={(e) => e.preventDefault()}>
             <Input label="Nombre" type="text" placeholder="Tu nombre completo" />
             <Input label="Correo" type="email" placeholder="tu@correo.com" />
@@ -152,10 +152,10 @@ const Contact: React.FC = () => {
         <div style={styles.footerContainer}>
           <div style={styles.footerGrid}>
             <div>
-              <img src="/logo.png" alt="Logo Multiservicios" style={{ height: '40px', marginBottom: '1rem' }} />
-              <h3 style={{...styles.footerTitle, margin: '0 0 0.5rem 0', color: '#FFF'}}>Multiservicios Integrales</h3>
-              <p style={{...styles.footerText, color: '#3B82F6', fontWeight: 600}}>Climatización · Electricidad · Informática</p>
-              <p style={styles.footerText}><strong>Horario de atención:</strong><br/>Lun - Vie: 08:00 - 18:00<br/>Sáb: 08:00 - 13:00</p>
+              <img src="/Logo-PNG.png" alt="Logo Multiservicios" style={{ height: '75px', width: 'auto', objectFit: 'contain', marginBottom: '1.25rem' }} />
+              <h3 style={{ ...styles.footerTitle, margin: '0 0 0.5rem 0', color: '#FFF' }}>Multiservicios Integrales</h3>
+              <p style={{ ...styles.footerText, color: '#3B82F6', fontWeight: 600 }}>Climatización · Electricidad · Informática</p>
+              <p style={styles.footerText}><strong>Horario de atención:</strong><br />Lun - Vie: 08:00 - 18:00<br />Sáb: 08:00 - 13:00</p>
               <div style={styles.socialContainer}>
                 <a href="#facebook" className="footer-social-icon" style={styles.socialIcon} aria-label="Facebook"><FacebookIcon /></a>
                 <a href="#instagram" className="footer-social-icon" style={styles.socialIcon} aria-label="Instagram"><InstagramIcon /></a>
@@ -166,7 +166,7 @@ const Contact: React.FC = () => {
               <h3 style={styles.footerTitle}>Contacto</h3>
               <p style={styles.footerText}><strong>Dirección:</strong> Tampico, Madero, Altamira y alrededores (Tamaulipas), Villahermosa (Tabasco)</p>
               <p style={styles.footerText}><strong>Email:</strong> serv.integralestampico@outlook.com</p>
-              <p style={styles.footerText}><strong>Tel:</strong> +52 833 310 2201<br/><strong>Tel:</strong> +52 833 147 4478</p>
+              <p style={styles.footerText}><strong>Tel:</strong> +52 833 310 2201<br /><strong>Tel:</strong> +52 833 147 4478</p>
             </div>
             <div>
               <h3 style={styles.footerTitle}>Enlaces</h3>

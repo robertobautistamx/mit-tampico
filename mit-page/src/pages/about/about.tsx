@@ -1,5 +1,5 @@
 import React from 'react';
-import Card from '../Card';
+import Card from '../../components/card/Card';
 
 const CheckIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
@@ -119,7 +119,7 @@ const About: React.FC = () => {
   return (
     <section id="acerca" style={styles.section}>
       <div style={styles.container}>
-        
+
         {/* Contenido Superior */}
         <div style={styles.topContent}>
           <div style={styles.leftColumn}>
@@ -133,7 +133,7 @@ const About: React.FC = () => {
             <p style={styles.description}>
               Nuestro compromiso es brindar un servicio confiable y transparente, cuidando cada detalle desde el diagnóstico hasta la entrega final, garantizando la satisfacción de nuestros clientes. Estamos listos para ayudarte con un servicio rápido, confiable y profesional.
             </p>
-            
+
             <ul style={styles.list}>
               {bulletPoints.map((item, index) => (
                 <li key={index} style={styles.listItem}>
@@ -147,9 +147,9 @@ const About: React.FC = () => {
           <div style={styles.rightColumn}>
             <div style={styles.imageWrapper}>
               {/* Imagen representativa industrial o de equipo */}
-              <img 
-                src="https://images.unsplash.com/photo-1581092921461-7031e4bf0e5c?q=80&w=2070&auto=format&fit=crop" 
-                alt="Equipo técnico profesional trabajando" 
+              <img
+                src="https://images.unsplash.com/photo-1581092921461-7031e4bf0e5c?q=80&w=2070&auto=format&fit=crop"
+                alt="Equipo técnico profesional trabajando"
                 style={styles.image}
               />
             </div>
@@ -158,21 +158,21 @@ const About: React.FC = () => {
 
         {/* Grid de Tarjetas (Misión, Visión, Valores) */}
         <div style={styles.cardsGrid}>
-          <Card 
+          <Card
             variant="info"
             icon={<MissionIcon />}
             title="Misión"
             description="Entregar servicios fiables y eficientes en climatización, electricidad y tecnología, asegurando seguridad, calidad y satisfacción en cada trabajo."
           />
 
-          <Card 
+          <Card
             variant="info"
             icon={<VisionIcon />}
             title="Visión"
             description="Ser la empresa de multiservicios de referencia en la región, reconocida por excelencia técnica, innovación y confianza al cliente."
           />
 
-          <Card 
+          <Card
             variant="info"
             icon={<ValuesIcon />}
             title="Valores"

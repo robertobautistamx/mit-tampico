@@ -4,7 +4,12 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
-    origin: true,
+    origin: process.env.NODE_ENV === 'production'
+      ? [
+          process.env.FRONTEND_URL,
+          process.env.PANEL_URL,
+        ].filter((url): url is string => !!url)
+      : true,
     credentials: true,
   });
   app.setGlobalPrefix('api/v1');

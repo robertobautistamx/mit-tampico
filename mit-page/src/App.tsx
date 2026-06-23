@@ -1,10 +1,10 @@
 import React from 'react';
-import Header from './pages/header';
-import Inicio from './pages/Inicio';
-import About from './pages/about';
-import Services from './pages/services';
-import Projects from './pages/projects';
-import Contact from './pages/contact';
+import Header from './pages/header/header';
+import Inicio from './pages/inicio/Inicio';
+import About from './pages/about/about';
+import Services from './pages/services/services';
+import Projects from './pages/projects/projects';
+import Contact from './pages/contact/contact';
 
 function App() {
   return (
