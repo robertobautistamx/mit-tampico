@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { navItems } from '../../modules/header/header.data';
 import { getStyles } from './header.styles';
 import { DropdownIcon, MenuIcon, CartIcon, UserIcon, GlobeIcon } from './header.icons';
@@ -9,6 +9,7 @@ const Header: React.FC = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeItem, setActiveItem] = useState<string>('inicio');
+  const hideDropdownTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -60,22 +61,33 @@ const Header: React.FC = () => {
 
   const styles = getStyles(isScrolled, isMobile, hoveredItem, isMenuOpen, activeItem);
 
-  // Función para manejar el scroll suave al bajar/subir, evitando que el header tape el contenido
+  // Función para manejar la navegación entre páginas y scroll suave
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string, hasSubItems: boolean = false) => {
+    // Páginas que se cargan a pantalla completa — el href las maneja de forma nativa
+    const isFullPageRoute = id === 'acerca' || id.startsWith('servicio-');
+
+    if (isFullPageRoute) {
+      // Disparar evento personalizado para que App.tsx actualice el estado directamente
+      window.dispatchEvent(new CustomEvent('mitNavigate', { detail: id }));
+      window.location.hash = '#' + id; // También actualiza la URL
+      if (!hasSubItems && isMobile) setIsMenuOpen(false);
+      return;
+    }
+
+    // Para secciones normales de scroll, prevenimos el default y manejamos manualmente
     e.preventDefault();
 
     if (id === 'inicio') {
-      window.scrollTo({ top: 0, behavior: 'smooth' }); // Sube hasta el tope
+      window.location.hash = '#inicio';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
+      window.location.hash = '#' + id;
       const element = document.getElementById(id);
       if (element) {
-        const headerOffset = 90; // Distancia para compensar el header flotante
+        const headerOffset = 90;
         const elementPosition = element.getBoundingClientRect().top;
         const offsetPosition = elementPosition + window.scrollY - headerOffset;
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth'
-        });
+        window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
       }
     }
 
@@ -124,8 +136,13 @@ const Header: React.FC = () => {
               <div
                 key={item.id}
                 style={{ position: 'relative' }}
-                onMouseEnter={() => setHoveredItem(item.id)}
-                onMouseLeave={() => setHoveredItem(null)}
+                onMouseEnter={() => {
+                  clearTimeout(hideDropdownTimer.current);
+                  setHoveredItem(item.id);
+                }}
+                onMouseLeave={() => {
+                  hideDropdownTimer.current = setTimeout(() => setHoveredItem(null), 150);
+                }}
               >
                 <a
                   href={`#${item.id}`}

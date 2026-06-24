@@ -74,12 +74,11 @@ const Inicio: React.FC = () => {
       <div style={styles.content}>
         <span style={styles.badge}>Multiservicios Integrales</span>
         <h1 style={styles.title}>
-          Respaldo profesional para el <br />
-          <span style={styles.highlight}>Sector Industrial y Residencial</span>
+          Soluciones Integrales<br />
+          <span style={styles.highlight}>para tu hogar y empresa</span>
         </h1>
         <p style={styles.subtitle}>
-          Transformamos y optimizamos tus instalaciones con ingeniería de primer nivel.
-          Un equipo especializado listo para garantizar eficiencia, seguridad y resultados tangibles.
+          Expertos en refrigeración, sistemas y electricidad. Calidad y confianza en cada servicio
         </p>
 
         <div style={styles.buttonGroup}>

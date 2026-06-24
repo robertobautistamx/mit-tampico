@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import ProjectCard from '../../components/card/ProjectCard';
 import { useImageGallery } from '../../modules/images/images';
 import type { ImageGalleryItem } from '../../interfaces/image_gallery/useImage_gallery';
@@ -14,6 +15,18 @@ const Projects: React.FC = () => {
   const { images, loading, error, refetch } = useImageGallery();
   const [activeCategory, setActiveCategory] = useState<string>('Todos');
   const [selectedProject, setSelectedProject] = useState<ImageGalleryItem | null>(null);
+
+  // Bloquear scroll del body cuando el modal está abierto
+  useEffect(() => {
+    if (selectedProject) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [selectedProject]);
 
   // Derive categories dynamically from database results
   const categories = [
@@ -49,8 +62,10 @@ const Projects: React.FC = () => {
 
   const styles = {
     section: {
-      padding: '6rem 2rem',
-      backgroundColor: '#0F172A', // Fondo oscuro para resaltar las imágenes
+      position: 'relative',
+      padding: '7rem 2rem',
+      backgroundColor: '#0F172A',
+      overflow: 'hidden',
     } as React.CSSProperties,
     container: {
       maxWidth: '1200px',
@@ -126,15 +141,17 @@ const Projects: React.FC = () => {
       position: 'fixed',
       top: 0,
       left: 0,
-      right: 0,
-      bottom: 0,
-      backgroundColor: 'rgba(15, 23, 42, 0.85)',
+      width: '100vw',
+      height: '100vh',
+      backgroundColor: 'rgba(15, 23, 42, 0.88)',
       backdropFilter: 'blur(12px)',
+      WebkitBackdropFilter: 'blur(12px)',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
       zIndex: 9999,
       padding: '1.5rem',
+      boxSizing: 'border-box',
       animation: 'fadeIn 0.25s ease-out forwards',
     } as React.CSSProperties,
     modalContent: {
@@ -220,9 +237,25 @@ const Projects: React.FC = () => {
   };
 
   return (
-    <section id="proyectos" style={styles.section}>
+    <>
+    <section id="proyectos" className="projects-section" style={styles.section}>
       <style>
         {`
+          .projects-section {
+            background-image: linear-gradient(rgba(15, 23, 42, 0.88), rgba(15, 23, 42, 0.94)), url("https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=2000&auto=format&fit=crop");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+            z-index: 5;
+          }
+          @media (max-width: 768px) {
+            .projects-section {
+              background-attachment: scroll !important;
+              padding: 5rem 1.5rem !important;
+            }
+          }
+
           /* Animaciones CSS */
           @keyframes fadeIn {
             from { opacity: 0; }
@@ -363,9 +396,10 @@ const Projects: React.FC = () => {
           </div>
         )}
       </div>
+    </section>
 
-      {/* Lightbox / Details Modal */}
-      {selectedProject && (
+      {/* Modal via Portal - fuera del section para evitar overflow:hidden */}
+      {selectedProject && ReactDOM.createPortal(
         <div style={styles.modalOverlay} onClick={() => setSelectedProject(null)}>
           <div style={styles.modalContent} onClick={(e) => e.stopPropagation()}>
             <button
@@ -399,9 +433,10 @@ const Projects: React.FC = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
-    </section>
+    </>
   );
 };
 

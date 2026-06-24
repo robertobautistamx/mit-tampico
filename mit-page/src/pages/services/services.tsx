@@ -63,18 +63,21 @@ const Services: React.FC = () => {
   const servicesData = [
     {
       id: 'refrigeracion',
+      hash: 'servicio-refrigeracion',
       title: 'Refrigeración',
       icon: <AcIcon />,
       description: 'Brindamos soluciones profesionales en instalación, mantenimiento y reparación de sistemas de aire acondicionado para hogares y negocios. Nuestro compromiso es garantizar tu confort mediante trabajos de calidad, atención rápida y precios justos.',
     },
     {
       id: 'sistemas-informaticos',
+      hash: 'servicio-sistemas',
       title: 'Sistemas Informáticos',
       icon: <CodeIcon />,
       description: 'Ofrecemos soluciones integrales en informática para hogares, negocios y emprendedores. Nos especializamos en creación de páginas web, mantenimiento de equipos de cómputo y reparación de dispositivos, garantizando un servicio confiable y de calidad.',
     },
     {
       id: 'electricidad',
+      hash: 'servicio-electricidad',
       title: 'Electricidad',
       icon: <ZapIcon />,
       description: 'Brindamos servicios eléctricos seguros y profesionales para hogares y negocios. Realizamos instalaciones, reparaciones y mantenimiento con atención a los detalles y cumplimiento de normas para garantizar un funcionamiento eficiente y sin riesgos.',
@@ -83,6 +86,17 @@ const Services: React.FC = () => {
 
   return (
     <section id="servicios" style={styles.section}>
+      <style>{`
+        .service-card-link {
+          text-decoration: none;
+          color: inherit;
+          display: block;
+          transition: transform 0.25s ease;
+        }
+        .service-card-link:hover {
+          transform: translateY(-4px);
+        }
+      `}</style>
       <div style={styles.container}>
         <div style={styles.headerContainer}>
           <span style={styles.badge}>Servicios</span>
@@ -91,14 +105,24 @@ const Services: React.FC = () => {
 
         <div style={styles.grid}>
           {servicesData.map((service) => (
-            <Card
+            <a
               key={service.id}
-              id={service.id}
-              variant="service"
-              title={service.title}
-              description={service.description}
-              icon={service.icon}
-            />
+              href={`#${service.hash}`}
+              className="service-card-link"
+              onClick={(e) => {
+                e.preventDefault();
+                window.dispatchEvent(new CustomEvent('mitNavigate', { detail: service.hash }));
+                window.location.hash = `#${service.hash}`;
+              }}
+            >
+              <Card
+                id={service.id}
+                variant="service"
+                title={service.title}
+                description={service.description}
+                icon={service.icon}
+              />
+            </a>
           ))}
         </div>
       </div>
@@ -106,4 +130,4 @@ const Services: React.FC = () => {
   );
 };
 
-export default Services;
+export default Services;
