@@ -114,9 +114,8 @@ export const getStyles = (isScrolled: boolean, isMobile: boolean, hoveredItem: s
     display: isOpen ? 'flex' : 'none',
     flexDirection: 'column',
     gap: isMobile ? '1rem' : '0.25rem',
-    marginTop: isMobile ? '1rem' : '0px',
+    marginTop: isMobile ? '1rem' : '4px',
     border: isMobile ? 'none' : '1px solid rgba(15, 23, 42, 0.05)',
-    borderTop: isMobile ? 'none' : '1.5rem solid transparent',
     zIndex: 1005,
   }),
   dropdownLink: {
