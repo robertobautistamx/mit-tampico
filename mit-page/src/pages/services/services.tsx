@@ -107,13 +107,8 @@ const Services: React.FC = () => {
           {servicesData.map((service) => (
             <a
               key={service.id}
-              href={`#${service.hash}`}
+              href={`#${service.hash || service.id}`}
               className="service-card-link"
-              onClick={(e) => {
-                e.preventDefault();
-                window.dispatchEvent(new CustomEvent('mitNavigate', { detail: service.hash }));
-                window.location.hash = `#${service.hash}`;
-              }}
             >
               <Card
                 id={service.id}
@@ -130,4 +125,4 @@ const Services: React.FC = () => {
   );
 };
 
-export default Services;
+export default Services;
