@@ -5,10 +5,10 @@ export const navItems = [
     id: 'servicios', 
     label: 'SERVICIOS', 
     subItems: [
-      { id: 'servicio-refrigeracion', label: 'Refrigeración' },
-      { id: 'servicio-sistemas', label: 'Sistemas Informáticos' },
-      { id: 'servicio-electricidad', label: 'Electricidad' }
+      { id: 'refrigeracion', hash: 'servicio-refrigeracion', label: 'Refrigeración' },
+      { id: 'sistemas-informaticos', hash: 'servicio-sistemas', label: 'Sistemas Informáticos' },
+      { id: 'electricidad', hash: 'servicio-electricidad', label: 'Electricidad' }
     ]
   },
   { id: 'proyectos', label: 'PROYECTOS' },
-];
+];

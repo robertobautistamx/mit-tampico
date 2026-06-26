@@ -9,6 +9,7 @@ import Footer from './components/footer/Footer';
 import ServiceRefrigeracion from './pages/services/ServiceRefrigeracion';
 import ServiceSistemas from './pages/services/ServiceSistemas';
 import ServiceElectricidad from './pages/services/ServiceElectricidad';
+import PoliticaPrivacidad from './pages/privacidad/PoliticaPrivacidad';
 
 function App() {
   const [hash, setHash] = useState(window.location.hash || '#inicio');
@@ -34,7 +35,8 @@ function App() {
   const isServRefrig = hash === '#servicio-refrigeracion';
   const isServSistemas = hash === '#servicio-sistemas';
   const isServElec = hash === '#servicio-electricidad';
-  const isFullPage = isAboutFull || isServRefrig || isServSistemas || isServElec;
+  const isPrivacidad = hash === '#privacidad';
+  const isFullPage = isAboutFull || isServRefrig || isServSistemas || isServElec || isPrivacidad;
 
   // Desplazamiento suave al cambiar de hash en la página principal
   useEffect(() => {
@@ -68,6 +70,7 @@ function App() {
     if (isServRefrig) return <ServiceRefrigeracion />;
     if (isServSistemas) return <ServiceSistemas />;
     if (isServElec) return <ServiceElectricidad />;
+    if (isPrivacidad) return <PoliticaPrivacidad />;
     return null;
   };
 
