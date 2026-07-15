@@ -163,7 +163,7 @@ const Header: React.FC = () => {
           </nav>
 
           <div style={styles.rightSection}>
-            {/* UTILIDADES: Idioma, Login, Carrito */}
+            {/* UTILIDADES: Idioma, Login, Carrito (Oculto temporalmente)
             <div style={styles.utilitiesContainer}>
               <button style={styles.utilityIcon('lang')} onMouseEnter={() => setHoveredItem('lang')} onMouseLeave={() => setHoveredItem(null)}>
                 <GlobeIcon />
@@ -176,6 +176,7 @@ const Header: React.FC = () => {
                 <CartIcon />
               </button>
             </div>
+            */}
 
             <a
               href="#contacto"

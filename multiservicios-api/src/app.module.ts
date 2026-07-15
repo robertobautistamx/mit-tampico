@@ -13,6 +13,7 @@ import { ImagenesModule } from './modules/imagenes/imagenes.module';
 import { BitacoraModule } from './modules/bitacora/bitacora.module';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { ImageGalleryModule } from './modules/image_gallery/image_gallery.module';
+import { ContactoModule } from './modules/contacto/contacto.module';
 import { ImageGallery } from './models/image_gallery';
 
 @Module({
@@ -41,6 +42,7 @@ import { ImageGallery } from './models/image_gallery';
     BitacoraModule,
     DashboardModule,
     ImageGalleryModule,
+    ContactoModule,
   ],
   controllers: [],
   providers: [],
