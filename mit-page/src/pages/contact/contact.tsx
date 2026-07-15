@@ -11,6 +11,52 @@ const Contact: React.FC = () => {
     mensaje: '',
     aceptado: false,
   });
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!formData.nombre || !formData.email || !formData.telefono || !formData.aceptado) {
+      return;
+    }
+
+    setStatus('submitting');
+
+    try {
+      const response = await fetch('/api/v1/contacto', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          nombre: formData.nombre,
+          email: formData.email,
+          telefono: formData.telefono,
+          mensaje: formData.mensaje,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al enviar el mensaje');
+      }
+
+      const data = await response.json();
+      if (data.success) {
+        setStatus('success');
+        setFormData({
+          nombre: '',
+          email: '',
+          telefono: '',
+          mensaje: '',
+          aceptado: false,
+        });
+      } else {
+        throw new Error(data.message || 'Error al enviar el mensaje');
+      }
+    } catch (error) {
+      console.error(error);
+      setStatus('error');
+    }
+  };
 
   const styles = {
     section: {
@@ -93,6 +139,26 @@ const Contact: React.FC = () => {
       textDecoration: 'none',
       fontWeight: 600,
     } as React.CSSProperties,
+    alertSuccess: {
+      backgroundColor: '#ECFDF5',
+      border: '1px solid #10B981',
+      borderRadius: '8px',
+      color: '#065F46',
+      padding: '1rem',
+      fontSize: '0.9rem',
+      fontWeight: 500,
+      textAlign: 'center',
+    } as React.CSSProperties,
+    alertError: {
+      backgroundColor: '#FEF2F2',
+      border: '1px solid #EF4444',
+      borderRadius: '8px',
+      color: '#991B1B',
+      padding: '1rem',
+      fontSize: '0.9rem',
+      fontWeight: 500,
+      textAlign: 'center',
+    } as React.CSSProperties,
   };
 
   return (
@@ -128,13 +194,25 @@ const Contact: React.FC = () => {
         {/* Columna Derecha - Tarjeta de Formulario */}
         <div style={styles.rightCol}>
           <div style={styles.formCard}>
-            <form style={styles.form} onSubmit={(e) => e.preventDefault()}>
+            <form style={styles.form} onSubmit={handleSubmit}>
+              {status === 'success' && (
+                <div style={styles.alertSuccess}>
+                  ¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto.
+                </div>
+              )}
+              {status === 'error' && (
+                <div style={styles.alertError}>
+                  Hubo un error al enviar tu mensaje. Por favor, inténtalo de nuevo o contáctanos por otro medio.
+                </div>
+              )}
+              
               <Input 
                 label="Nombre*" 
                 type="text" 
                 placeholder="Nombre*" 
                 required 
                 value={formData.nombre}
+                disabled={status === 'submitting'}
                 onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
               />
               <Input 
@@ -143,6 +221,7 @@ const Contact: React.FC = () => {
                 placeholder="Email*" 
                 required 
                 value={formData.email}
+                disabled={status === 'submitting'}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               />
               <Input 
@@ -151,12 +230,14 @@ const Contact: React.FC = () => {
                 placeholder="Teléfono*" 
                 required 
                 value={formData.telefono}
+                disabled={status === 'submitting'}
                 onChange={(e) => setFormData({ ...formData, telefono: e.target.value })}
               />
               <Textarea 
                 label="Mensaje (opcional)" 
                 placeholder="Mensaje (opcional)" 
                 value={formData.mensaje}
+                disabled={status === 'submitting'}
                 onChange={(e) => setFormData({ ...formData, mensaje: e.target.value })}
               />
               
@@ -166,6 +247,7 @@ const Contact: React.FC = () => {
                   style={styles.checkbox} 
                   required
                   checked={formData.aceptado}
+                  disabled={status === 'submitting'}
                   onChange={(e) => setFormData({ ...formData, aceptado: e.target.checked })}
                 />
                 <span>
@@ -175,9 +257,11 @@ const Contact: React.FC = () => {
 
               <Button 
                 variant="primary" 
+                type="submit"
+                disabled={status === 'submitting'}
                 customStyles={{ marginTop: '1rem', width: '100%', padding: '0.9rem' }}
               >
-                Enviar mensaje
+                {status === 'submitting' ? 'Enviando...' : 'Enviar mensaje'}
               </Button>
             </form>
           </div>
