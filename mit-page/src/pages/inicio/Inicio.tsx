@@ -10,9 +10,9 @@ const Inicio: React.FC = () => {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: '#0F172A', // Coincide con el Header (Slate 900)
+      backgroundColor: '#090D16', // Color de fondo premium súper oscuro (casi negro azulado)
       overflow: 'hidden',
-      padding: '6rem 2rem 3rem',
+      padding: 'clamp(5rem, 12vh, 8rem) clamp(1rem, 5vw, 2rem) clamp(3rem, 8vh, 5rem)',
       color: '#F8FAFC',
     } as React.CSSProperties,
     content: {
@@ -28,32 +28,32 @@ const Inicio: React.FC = () => {
     badge: {
       display: 'inline-block',
       padding: '0.5rem 1.25rem',
-      backgroundColor: 'transparent',
-      color: '#94A3B8',
-      borderRadius: '4px',
+      backgroundColor: 'rgba(59, 130, 246, 0.05)',
+      color: '#60A5FA', // Azul claro vibrante
+      borderRadius: '20px', // Totalmente redondeado tipo pastilla moderna
       fontSize: '0.75rem',
       fontWeight: 700,
-      letterSpacing: '0.2em', // Letras separadas y elegantes
+      letterSpacing: '0.2em',
       textTransform: 'uppercase',
-      border: '1px solid rgba(148, 163, 184, 0.3)', // Borde sutil
-      marginBottom: '1rem',
+      border: '1px solid rgba(59, 130, 246, 0.2)', // Borde teñido de azul
+      marginBottom: '0.5rem',
     } as React.CSSProperties,
     title: {
-      fontSize: 'clamp(2.5rem, 6vw, 5rem)', // Letras más grandes
-      fontWeight: 800,
-      lineHeight: 1.05, // Interlineado apretado
+      fontSize: 'clamp(2.25rem, 6.5vw, 4.5rem)',
+      fontWeight: 900,
+      lineHeight: 1.1,
       margin: 0,
       letterSpacing: '-0.03em',
     } as React.CSSProperties,
     highlight: {
-      color: '#3B82F6',
-      backgroundImage: 'linear-gradient(90deg, #3B82F6 0%, #60A5FA 100%)', // Texto con degradado
+      backgroundImage: 'linear-gradient(90deg, #FFFFFF 0%, #60A5FA 60%, #22D3EE 100%)', // Degradado ultra-elegante Plateado a Azul a Cian
       WebkitBackgroundClip: 'text',
       WebkitTextFillColor: 'transparent',
-    },
+      display: 'inline-block',
+    } as React.CSSProperties,
     subtitle: {
-      fontSize: 'clamp(1rem, 1.5vw, 1.15rem)',
-      color: '#CBD5E1', // Texto un poco más claro para mejor lectura
+      fontSize: 'clamp(0.95rem, 1.6vw, 1.15rem)',
+      color: '#94A3B8', // Slate 400
       maxWidth: '650px',
       lineHeight: 1.7,
       margin: '0 0 2rem 0',

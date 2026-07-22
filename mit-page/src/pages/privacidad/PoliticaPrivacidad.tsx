@@ -165,8 +165,8 @@ const PoliticaPrivacidad: React.FC = () => {
           margin: 0;
         }
         .privacy-title span {
-          color: #3B82F6;
-          background-image: linear-gradient(90deg, #3B82F6 0%, #60A5FA 100%);
+          color: #22D3EE;
+          background-image: linear-gradient(90deg, #22D3EE 0%, #60A5FA 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
         }
@@ -274,6 +274,16 @@ const PoliticaPrivacidad: React.FC = () => {
         .privacy-list li strong {
           color: #1E293B;
         }
+        .privacy-breadcrumb-container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 2rem 2rem 0;
+        }
+        @media (max-width: 1024px) {
+          .privacy-breadcrumb-container {
+            padding: 1.5rem 1rem 0;
+          }
+        }
         .privacy-breadcrumb {
           display: flex;
           align-items: center;
@@ -309,6 +319,13 @@ const PoliticaPrivacidad: React.FC = () => {
           text-decoration: none;
           font-weight: 600;
           transition: text-decoration 0.2s;
+          word-break: break-all;
+        }
+        .privacy-button-group {
+          margin-top: 2rem;
+          display: flex;
+          gap: 1rem;
+          flex-wrap: wrap;
         }
         .privacy-contact-box a:hover {
           text-decoration: underline;
@@ -317,20 +334,75 @@ const PoliticaPrivacidad: React.FC = () => {
         @media (max-width: 1024px) {
           .privacy-container {
             grid-template-columns: 1fr;
-            gap: 2rem;
+            gap: 1.5rem;
+            padding: 1.5rem 1rem;
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
           }
           .privacy-sidebar {
             position: relative;
             top: 0;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
+            width: 100%;
+            max-width: 100%;
+            min-width: 0; /* Previene el desborde en CSS Grid */
+          }
+          .privacy-sidebar-title {
+            margin-bottom: 0.5rem;
           }
           .privacy-nav-list {
             flex-direction: row;
-            flex-wrap: wrap;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            gap: 0.5rem;
+            padding-bottom: 0.75rem;
+            scrollbar-width: none;
+            width: 100%;
+            max-width: 100%;
+          }
+          .privacy-nav-list::-webkit-scrollbar {
+            display: none;
+          }
+          .privacy-nav-item {
+            flex: 0 0 auto;
+            scroll-snap-align: start;
           }
           .privacy-nav-item a {
             font-size: 0.85rem;
             padding: 0.5rem 0.75rem;
+          }
+          .privacy-content {
+            width: 100%;
+            max-width: 100%;
+            min-width: 0; /* Previene el desborde en CSS Grid */
+          }
+        }
+
+        @media (max-width: 768px) {
+          .privacy-section-card {
+            padding: 1.75rem 1.25rem;
+            border-radius: 12px;
+          }
+          .privacy-section-card h2 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+          }
+          .privacy-section-card p {
+            font-size: 0.92rem;
+            line-height: 1.65;
+            text-align: left;
+          }
+          .privacy-button-group {
+            flex-direction: column;
+            gap: 0.75rem;
+          }
+          .privacy-button-group a, .privacy-button-group button {
+            width: 100% !important;
+            padding: 0.85rem 1.5rem !important;
+            display: inline-block !important;
+            text-align: center !important;
           }
         }
       `}</style>
@@ -346,7 +418,7 @@ const PoliticaPrivacidad: React.FC = () => {
         </div>
       </div>
 
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '2rem 2rem 0' }}>
+      <div className="privacy-breadcrumb-container">
         {/* Breadcrumb */}
         <div className="privacy-breadcrumb">
           <a href="#inicio">Inicio</a>
@@ -502,7 +574,7 @@ const PoliticaPrivacidad: React.FC = () => {
               <span>Teléfonos de contacto:</span>
               <span style={{ color: '#1E293B', fontWeight: 500 }}>+52 833 310 2201 / +52 833 147 4478</span>
             </div>
-            <div style={{ marginTop: '2rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            <div className="privacy-button-group">
               <Button variant="secondary" onClick={() => { window.location.hash = '#inicio'; }}>
                 Regresar al Inicio
               </Button>

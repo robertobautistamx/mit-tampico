@@ -22,8 +22,8 @@ const ZapIcon = () => (
 const Services: React.FC = () => {
   const styles = {
     section: {
-      padding: '6rem 2rem',
-      background: 'linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%)', // Gradiente azul claro moderno
+      padding: 'clamp(4rem, 10vh, 6rem) clamp(1rem, 5vw, 2rem)',
+      background: 'linear-gradient(180deg, #F8FAFC 0%, #F1F5F9 100%)', // Fondo neutral claro suave para que resalten las tarjetas
     } as React.CSSProperties,
     container: {
       maxWidth: '1200px',
@@ -35,28 +35,30 @@ const Services: React.FC = () => {
     } as React.CSSProperties,
     badge: {
       display: 'inline-block',
-      padding: '0.4rem 1rem',
+      padding: '0.4rem 1.25rem',
       backgroundColor: '#FFFFFF',
       color: '#2563EB',
-      borderRadius: '4px',
+      borderRadius: '20px',
       fontSize: '0.85rem',
       fontWeight: 700,
       letterSpacing: '0.1em',
       textTransform: 'uppercase',
-      boxShadow: '0 4px 14px rgba(37, 99, 235, 0.1)',
+      boxShadow: '0 4px 14px rgba(37, 99, 235, 0.08)',
+      border: '1px solid rgba(37, 99, 235, 0.08)',
       marginBottom: '1rem',
     } as React.CSSProperties,
     title: {
-      fontSize: 'clamp(2rem, 4vw, 2.5rem)',
+      fontSize: 'clamp(2rem, 4.5vw, 2.5rem)',
       fontWeight: 800,
       lineHeight: 1.2,
       color: '#0F172A',
       margin: 0,
+      letterSpacing: '-0.02em',
     } as React.CSSProperties,
     grid: {
       display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-      gap: '2.5rem',
+      gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', // Ajuste responsivo de columnas
+      gap: '2rem',
     } as React.CSSProperties,
   };
 
@@ -65,6 +67,7 @@ const Services: React.FC = () => {
       id: 'refrigeracion',
       hash: 'servicio-refrigeracion',
       title: 'Refrigeración',
+      colorScheme: 'cyan',
       icon: <AcIcon />,
       description: 'Brindamos soluciones profesionales en instalación, mantenimiento y reparación de sistemas de aire acondicionado para hogares y negocios. Nuestro compromiso es garantizar tu confort mediante trabajos de calidad, atención rápida y precios justos.',
     },
@@ -72,6 +75,7 @@ const Services: React.FC = () => {
       id: 'sistemas-informaticos',
       hash: 'servicio-sistemas',
       title: 'Sistemas Informáticos',
+      colorScheme: 'purple',
       icon: <CodeIcon />,
       description: 'Ofrecemos soluciones integrales en informática para hogares, negocios y emprendedores. Nos especializamos en creación de páginas web, mantenimiento de equipos de cómputo y reparación de dispositivos, garantizando un servicio confiable y de calidad.',
     },
@@ -79,6 +83,7 @@ const Services: React.FC = () => {
       id: 'electricidad',
       hash: 'servicio-electricidad',
       title: 'Electricidad',
+      colorScheme: 'amber',
       icon: <ZapIcon />,
       description: 'Brindamos servicios eléctricos seguros y profesionales para hogares y negocios. Realizamos instalaciones, reparaciones y mantenimiento con atención a los detalles y cumplimiento de normas para garantizar un funcionamiento eficiente y sin riesgos.',
     }
@@ -116,6 +121,7 @@ const Services: React.FC = () => {
                 title={service.title}
                 description={service.description}
                 icon={service.icon}
+                colorScheme={service.colorScheme as any}
               />
             </a>
           ))}

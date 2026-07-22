@@ -92,6 +92,28 @@ const Header: React.FC = () => {
             color: #3B82F6 !important;
             padding-left: ${isMobile ? '1.5rem' : '1.75rem'} !important;
           }
+          
+          /* Animación de línea para links de navegación en Desktop */
+          @media (min-width: 1025px) {
+            .nav-link-custom {
+              position: relative;
+            }
+            .nav-link-custom::after {
+              content: '';
+              position: absolute;
+              bottom: -4px;
+              left: 50%;
+              width: 0;
+              height: 2px;
+              background: linear-gradient(90deg, #60A5FA 0%, #2563EB 100%);
+              transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+              transform: translateX(-50%);
+              border-radius: 4px;
+            }
+            .nav-link-custom:hover::after, .nav-link-custom.active::after {
+              width: 80%;
+            }
+          }
         `}
       </style>
       <div style={styles.container}>
@@ -128,6 +150,7 @@ const Header: React.FC = () => {
               >
                 <a
                   href={`#${item.id}`}
+                  className={`nav-link-custom ${activeItem === item.id ? 'active' : ''}`}
                   style={styles.navLink(item.id)}
                   onClick={(e) => handleNavClick(e, item.id, !!item.subItems)}
                 >

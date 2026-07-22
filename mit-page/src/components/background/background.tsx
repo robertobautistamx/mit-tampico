@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useImageGallery } from '../../modules/images/images';
 
 // --- Canvas Particle System ---
 interface Particle {
@@ -14,10 +15,11 @@ interface Particle {
 }
 
 const COLORS = [
+  'rgba(6, 182, 212,',    // Cian (Refrigeración)
+  'rgba(139, 92, 246,',   // Violeta (Sistemas Informáticos)
+  'rgba(245, 158, 11,',   // Ámbar (Electricidad)
   'rgba(59, 130, 246,',   // Azul MIT
-  'rgba(96, 165, 250,',   // Azul claro
   'rgba(255, 255, 255,',  // Blanco
-  'rgba(147, 197, 253,',  // Azul muy claro
 ];
 
 const ParticleCanvas: React.FC = () => {
@@ -135,6 +137,34 @@ const ParticleCanvas: React.FC = () => {
 
 // --- Background Component ---
 const Background: React.FC = () => {
+  const { images } = useImageGallery();
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // Filtramos imágenes válidas de la base de datos
+  const validImages = images.filter((img) => !!img.image_url);
+
+  useEffect(() => {
+    if (validImages.length <= 1) return;
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % validImages.length);
+    }, 6000); // Cambia de imagen cada 6 segundos
+    return () => clearInterval(interval);
+  }, [validImages]);
+
+  const getImageUrl = (url: string) => {
+    if (!url) return '';
+    if (url.startsWith('http://') || url.startsWith('https://')) return url;
+
+    const apiBase = process.env.REACT_APP_API_URL || 'http://localhost:3001/api/v1';
+    try {
+      const origin = new URL(apiBase).origin;
+      const cleanUrl = url.startsWith('/') ? url : `/${url}`;
+      return `${origin}${cleanUrl}`;
+    } catch (e) {
+      return url;
+    }
+  };
+
   const styles = {
     container: {
       position: 'absolute',
@@ -150,7 +180,6 @@ const Background: React.FC = () => {
       left: 0,
       width: '100%',
       height: '100%',
-      backgroundImage: 'url("https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=2069&auto=format&fit=crop")',
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundAttachment: 'fixed',
@@ -162,14 +191,32 @@ const Background: React.FC = () => {
       left: 0,
       width: '100%',
       height: '100%',
-      background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.75) 100%)',
+      background: 'linear-gradient(135deg, rgba(9, 13, 22, 0.96) 0%, rgba(9, 13, 22, 0.80) 100%)', // Gradiente más oscuro a juego con la marca
       zIndex: 2,
     } as React.CSSProperties,
   };
 
+  const fallbackImage = 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=2069&auto=format&fit=crop';
+
   return (
     <div style={styles.container}>
-      <div style={styles.image} />
+      {/* Si no hay imágenes en la base de datos, mostramos la de fallback */}
+      {validImages.length === 0 ? (
+        <div style={{ ...styles.image, backgroundImage: `url("${fallbackImage}")` }} />
+      ) : (
+        validImages.map((img, index) => (
+          <div
+            key={img.id}
+            style={{
+              ...styles.image,
+              backgroundImage: `url("${getImageUrl(img.image_url)}")`,
+              opacity: index === currentImageIndex ? 1 : 0,
+              transition: 'opacity 1.8s ease-in-out', // Suave fundido de entrada y salida
+            }}
+          />
+        ))
+      )}
+      
       <div style={styles.overlay} />
       {/* Canvas con partículas interconectadas tipo tech */}
       <ParticleCanvas />

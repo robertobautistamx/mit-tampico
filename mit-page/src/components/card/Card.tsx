@@ -6,23 +6,53 @@ interface CardProps {
   description: string;
   icon: React.ReactNode;
   variant?: 'service' | 'info';
+  colorScheme?: 'cyan' | 'purple' | 'amber' | 'blue';
 }
 
-const Card: React.FC<CardProps> = ({ id, title, description, icon, variant = 'service' }) => {
+const Card: React.FC<CardProps> = ({ id, title, description, icon, variant = 'service', colorScheme }) => {
   const [isHovered, setIsHovered] = useState(false);
   const isService = variant === 'service';
+
+  const schemes = {
+    cyan: {
+      bg: 'rgba(6, 182, 212, 0.08)',
+      color: '#0891B2',
+      bgHover: 'linear-gradient(135deg, #06B6D4 0%, #0891B2 100%)',
+      shadow: 'rgba(6, 182, 212, 0.15)',
+    },
+    purple: {
+      bg: 'rgba(139, 92, 246, 0.08)',
+      color: '#7C3AED',
+      bgHover: 'linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%)',
+      shadow: 'rgba(139, 92, 246, 0.15)',
+    },
+    amber: {
+      bg: 'rgba(245, 158, 11, 0.08)',
+      color: '#D97706',
+      bgHover: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+      shadow: 'rgba(245, 158, 11, 0.15)',
+    },
+    blue: {
+      bg: 'rgba(37, 99, 235, 0.08)',
+      color: '#2563EB',
+      bgHover: 'linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)',
+      shadow: 'rgba(37, 99, 235, 0.15)',
+    },
+  };
+
+  const selectedScheme = schemes[colorScheme || 'blue'];
   
   const styles = {
     card: {
       backgroundColor: isService ? '#FFFFFF' : '#F8FAFC',
       padding: isService ? '3rem 2rem' : '2.5rem 2rem',
-      borderRadius: isService ? '12px' : '8px',
-      borderTop: isService ? 'none' : '4px solid #2563EB',
+      borderRadius: isService ? '16px' : '10px',
+      borderTop: isService ? 'none' : `4px solid ${selectedScheme.color}`,
       boxShadow: isService 
-        ? (isHovered ? '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)' : '0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02)')
+        ? (isHovered ? `0 20px 25px -5px ${selectedScheme.shadow}, 0 10px 10px -5px rgba(0, 0, 0, 0.04)` : '0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.01)')
         : '0 4px 6px -1px rgba(0, 0, 0, 0.05)',
-      transform: isService && isHovered ? 'translateY(-5px)' : 'none',
-      transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+      transform: isService && isHovered ? 'translateY(-6px)' : 'none',
+      transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'flex-start',
@@ -42,20 +72,21 @@ const Card: React.FC<CardProps> = ({ id, title, description, icon, variant = 'se
       justifyContent: 'center',
       width: '64px',
       height: '64px',
-      borderRadius: '12px',
-      backgroundColor: isHovered ? '#2563EB' : 'rgba(37, 99, 235, 0.08)',
-      color: isHovered ? '#FFFFFF' : '#2563EB', // Cambia de azul a blanco al pasar el mouse
+      borderRadius: '14px',
+      background: isHovered ? selectedScheme.bgHover : selectedScheme.bg,
+      color: isHovered ? '#FFFFFF' : selectedScheme.color,
       marginBottom: '1.5rem',
       alignSelf: 'flex-start',
-      transition: 'background-color 0.3s ease, color 0.3s ease',
+      transition: 'background 0.3s ease, color 0.3s ease',
     } as React.CSSProperties,
     title: {
-      fontSize: isService ? '1.35rem' : '1.25rem',
-      fontWeight: 700,
+      fontSize: isService ? '1.4rem' : '1.25rem',
+      fontWeight: 800,
       color: '#0F172A',
       margin: 0,
       marginBottom: isService ? '1rem' : '0',
       alignSelf: 'flex-start',
+      letterSpacing: '-0.02em',
     } as React.CSSProperties,
     description: {
       color: '#475569',
@@ -74,7 +105,7 @@ const Card: React.FC<CardProps> = ({ id, title, description, icon, variant = 'se
         </>
       ) : (
         <div style={styles.header}>
-          {icon}
+          <div style={{ ...styles.iconWrapper, width: '48px', height: '48px', marginBottom: 0, borderRadius: '8px' }}>{icon}</div>
           <h3 style={styles.title}>{title}</h3>
         </div>
       )}
