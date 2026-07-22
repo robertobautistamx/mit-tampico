@@ -14,15 +14,20 @@ export const theme = {
 export const getStyles = (isScrolled: boolean, isMobile: boolean, hoveredItem: string | null, isMenuOpen: boolean, activeItem: string) => ({
   header: {
     position: 'fixed',
-    top: 0,
-    left: 0,
-    width: '100%',
+    top: isScrolled && !(isMobile && isMenuOpen) ? '1rem' : '0',
+    left: '50%',
+    transform: 'translateX(-50%)',
+    width: isScrolled && !(isMobile && isMenuOpen) ? 'calc(100% - 2rem)' : '100%',
+    maxWidth: isScrolled && !(isMobile && isMenuOpen) ? '1200px' : '100%',
+    borderRadius: isScrolled && !(isMobile && isMenuOpen) ? '16px' : '0px',
     zIndex: 1000,
-    transition: 'all 0.3s ease-in-out',
-    backgroundColor: isScrolled || (isMobile && isMenuOpen) ? 'rgba(15, 23, 42, 0.95)' : 'transparent',
-    backdropFilter: isScrolled || (isMobile && isMenuOpen) ? 'blur(12px)' : 'none',
-    borderBottom: isScrolled ? `1px solid rgba(255, 255, 255, 0.05)` : '1px solid transparent',
-    boxShadow: isScrolled ? '0 4px 20px rgba(0, 0, 0, 0.15)' : 'none',
+    transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+    backgroundColor: isScrolled 
+      ? 'rgba(15, 23, 42, 0.75)' 
+      : (isMobile && isMenuOpen ? 'rgba(15, 23, 42, 0.98)' : 'transparent'),
+    backdropFilter: isScrolled || (isMobile && isMenuOpen) ? 'blur(16px)' : 'none',
+    border: isScrolled && !(isMobile && isMenuOpen) ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid transparent',
+    boxShadow: isScrolled && !(isMobile && isMenuOpen) ? '0 10px 30px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255,255,255,0.05)' : 'none',
     fontFamily: theme.fontFamily,
   } as React.CSSProperties,
   container: {
@@ -160,14 +165,18 @@ export const getStyles = (isScrolled: boolean, isMobile: boolean, hoveredItem: s
     alignItems: 'center',
     justifyContent: 'center',
     padding: isMobile ? '0.8rem 2.5rem' : '0.5rem 1.25rem',
-    background: hoveredItem === 'contacto' || activeItem === 'contacto' ? '#2563EB' : theme.primary, // Azul más oscuro al estar activo
+    background: hoveredItem === 'contacto' || activeItem === 'contacto' 
+      ? 'linear-gradient(135deg, #1D4ED8 0%, #1E40AF 100%)' 
+      : 'linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)',
     color: '#ffffff',
     textDecoration: 'none',
     fontWeight: 600,
     fontSize: isMobile ? '1rem' : '0.9rem',
-    borderRadius: '6px',
-    transition: 'all 0.2s ease',
-    boxShadow: hoveredItem === 'contacto' || activeItem === 'contacto' ? '0 4px 12px rgba(59, 130, 246, 0.3)' : 'none',
+    borderRadius: '8px', // A juego con los botones principales
+    transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+    boxShadow: hoveredItem === 'contacto' || activeItem === 'contacto' 
+      ? '0 10px 20px -5px rgba(37, 99, 235, 0.4)' 
+      : '0 4px 6px -1px rgba(37, 99, 235, 0.1)',
     transform: hoveredItem === 'contacto' || activeItem === 'contacto' ? 'translateY(-2px)' : 'none',
     outline: 'none',
     WebkitTapHighlightColor: 'transparent',

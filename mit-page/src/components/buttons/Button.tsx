@@ -20,8 +20,8 @@ const Button: React.FC<ButtonProps> = ({ variant = 'primary', href, type, disabl
     padding: '1rem 2.5rem',
     textDecoration: 'none',
     fontWeight: 600,
-    borderRadius: '4px', // Bordes más cuadrados y serios
-    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+    borderRadius: '8px', // Bordes más modernos y premium
+    transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
     cursor: disabled ? 'not-allowed' : 'pointer',
     border: '1px solid transparent',
     fontFamily: 'inherit',
@@ -33,20 +33,28 @@ const Button: React.FC<ButtonProps> = ({ variant = 'primary', href, type, disabl
 
   const variants: Record<string, React.CSSProperties> = {
     primary: {
-      backgroundColor: isHovered && !disabled ? '#1D4ED8' : '#2563EB', // Azul corporativo más profundo
+      background: isHovered && !disabled 
+        ? 'linear-gradient(135deg, #1D4ED8 0%, #1E40AF 100%)' 
+        : 'linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)',
       color: '#FFF',
-      boxShadow: isHovered && !disabled ? '0 10px 25px -5px rgba(37, 99, 235, 0.4)' : '0 4px 6px -1px rgba(37, 99, 235, 0.2)',
+      boxShadow: isHovered && !disabled 
+        ? '0 10px 25px -5px rgba(37, 99, 235, 0.45)' 
+        : '0 4px 12px -1px rgba(37, 99, 235, 0.25)',
     },
     secondary: {
-      backgroundColor: isHovered && !disabled ? '#C2410C' : '#EA580C',
+      background: isHovered && !disabled 
+        ? 'linear-gradient(135deg, #C2410C 0%, #9A3412 100%)' 
+        : 'linear-gradient(135deg, #EA580C 0%, #C2410C 100%)',
       color: '#FFF',
-      boxShadow: isHovered && !disabled ? '0 10px 25px -5px rgba(234, 88, 12, 0.4)' : '0 4px 6px -1px rgba(234, 88, 12, 0.2)',
+      boxShadow: isHovered && !disabled 
+        ? '0 10px 25px -5px rgba(234, 88, 12, 0.45)' 
+        : '0 4px 12px -1px rgba(234, 88, 12, 0.25)',
     },
     outline: {
-      backgroundColor: isHovered && !disabled ? '#FFFFFF' : 'transparent',
-      color: isHovered && !disabled ? '#0F172A' : '#F8FAFC', // Al hacer hover se vuelve blanco con texto oscuro
+      background: isHovered && !disabled ? '#FFFFFF' : 'transparent',
+      color: isHovered && !disabled ? '#0F172A' : '#F8FAFC',
       border: '1px solid #FFFFFF',
-      boxShadow: isHovered && !disabled ? '0 10px 25px -5px rgba(255, 255, 255, 0.2)' : 'none',
+      boxShadow: isHovered && !disabled ? '0 10px 25px -5px rgba(255, 255, 255, 0.15)' : 'none',
     }
   };
 

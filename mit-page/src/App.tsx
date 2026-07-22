@@ -12,11 +12,30 @@ import ServiceElectricidad from './pages/services/ServiceElectricidad';
 import PoliticaPrivacidad from './pages/privacidad/PoliticaPrivacidad';
 
 function App() {
-  const [hash, setHash] = useState(window.location.hash || '#inicio');
+  const [hash, setHash] = useState(() => {
+    const currentHash = window.location.hash;
+    if (!currentHash || currentHash === '#inicio') {
+      return '#inicio';
+    }
+    return currentHash;
+  });
 
   useEffect(() => {
+    // Si carga con #inicio, limpiamos la URL de inmediato para estética
+    if (window.location.hash === '#inicio') {
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+
     const handleHashChange = () => {
-      setHash(window.location.hash || '#inicio');
+      const currentHash = window.location.hash;
+      if (!currentHash || currentHash === '#inicio') {
+        if (window.location.hash === '#inicio') {
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }
+        setHash('#inicio');
+      } else {
+        setHash(currentHash);
+      }
     };
     // Evento personalizado del header para navegación directa y confiable
     const handleMitNavigate = (e: Event) => {
@@ -78,14 +97,21 @@ function App() {
     <div className="App">
       <style>
         {`
+          *, *::before, *::after {
+            box-sizing: border-box;
+          }
           html {
             scroll-behavior: smooth;
+            overflow-x: hidden;
+            width: 100%;
           }
           @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
           body {
             margin: 0;
             background-color: #f8f9fa;
             font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            width: 100%;
           }
 
           /* --- Personalización de la barra de desplazamiento (Scrollbar) --- */
