@@ -30,7 +30,7 @@ import { ImageGallery } from './models/image_gallery';
         password: config.get<string>('DB_PASSWORD', ''),
         database: config.get<string>('DB_DATABASE', 'test'),
         entities: [Usuario, Producto, Categoria, Imagen, Bitacora, ImageGallery],
-        synchronize: false,
+        synchronize: true,
         autoLoadEntities: true,
       }),
     }),
