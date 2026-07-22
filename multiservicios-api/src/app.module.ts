@@ -22,17 +22,26 @@ import { ImageGallery } from './models/image_gallery';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
-        type: 'mysql',
-        host: config.get<string>('DB_HOST', 'localhost'),
-        port: parseInt(config.get<string>('DB_PORT', '3306'), 10),
-        username: config.get<string>('DB_USERNAME', 'root'),
-        password: config.get<string>('DB_PASSWORD', ''),
-        database: config.get<string>('DB_DATABASE', 'test'),
-        entities: [Usuario, Producto, Categoria, Imagen, Bitacora, ImageGallery],
-        synchronize: true,
-        autoLoadEntities: true,
-      }),
+      useFactory: (config: ConfigService) => {
+        console.log('====================================');
+        console.log('DATABASE CONFIGURATION DEBUG:');
+        console.log('config DB_HOST:', config.get<string>('DB_HOST'));
+        console.log('process.env.DB_HOST:', process.env.DB_HOST);
+        console.log('config DB_PORT:', config.get<string>('DB_PORT'));
+        console.log('process.env.DB_PORT:', process.env.DB_PORT);
+        console.log('==================================');
+        return {
+          type: 'mysql',
+          host: config.get<string>('DB_HOST', 'localhost'),
+          port: parseInt(config.get<string>('DB_PORT', '3306'), 10),
+          username: config.get<string>('DB_USERNAME', 'root'),
+          password: config.get<string>('DB_PASSWORD', ''),
+          database: config.get<string>('DB_DATABASE', 'test'),
+          entities: [Usuario, Producto, Categoria, Imagen, Bitacora, ImageGallery],
+          synchronize: true,
+          autoLoadEntities: true,
+        };
+      },
     }),
     TypeOrmModule.forFeature([Usuario, Producto, Categoria, Imagen, Bitacora, ImageGallery]),
     UsuariosModule,
