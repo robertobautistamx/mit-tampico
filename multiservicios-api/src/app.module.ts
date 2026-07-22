@@ -29,7 +29,7 @@ import { ImageGallery } from './models/image_gallery';
         console.log('process.env.DB_HOST:', process.env.DB_HOST);
         console.log('config DB_PORT:', config.get<string>('DB_PORT'));
         console.log('process.env.DB_PORT:', process.env.DB_PORT);
-        console.log('====================================');
+        console.log('==================================');
         return {
           type: 'mysql',
           host: config.get<string>('DB_HOST', 'localhost'),
