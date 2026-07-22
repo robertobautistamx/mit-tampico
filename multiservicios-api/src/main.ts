@@ -6,9 +6,9 @@ async function bootstrap() {
   app.enableCors({
     origin: process.env.NODE_ENV === 'production'
       ? [
-          process.env.FRONTEND_URL,
-          process.env.PANEL_URL,
-        ].filter((url): url is string => !!url)
+          ...((process.env.FRONTEND_URL || '').split(',')),
+          ...((process.env.PANEL_URL || '').split(',')),
+        ].map(url => url.trim()).filter((url): url is string => !!url)
       : true,
     credentials: true,
   });
