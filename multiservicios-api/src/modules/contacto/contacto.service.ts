@@ -9,7 +9,7 @@ export class ContactoService {
 
   constructor(private readonly configService: ConfigService) {
     const host = this.configService.get<string>('SMTP_HOST', 'smtp.gmail.com');
-    const port = Number(this.configService.get('SMTP_PORT', 587));
+    const port = Number(this.configService.get('SMTP_PORT', 465));
     const user = this.configService.get<string>('SMTP_USER') || '';
     const pass = this.configService.get<string>('SMTP_PASS') || '';
 
@@ -21,6 +21,9 @@ export class ContactoService {
         user,
         pass,
       },
+      connectionTimeout: 10000, // 10 segundos timeout de conexión
+      greetingTimeout: 10000,
+      socketTimeout: 10000,
       tls: {
         rejectUnauthorized: false,
       },
