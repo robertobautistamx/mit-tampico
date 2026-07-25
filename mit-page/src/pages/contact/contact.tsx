@@ -12,6 +12,7 @@ const Contact: React.FC = () => {
     aceptado: false,
   });
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -20,6 +21,7 @@ const Contact: React.FC = () => {
     }
 
     setStatus('submitting');
+    setErrorMessage('');
 
     try {
       let apiBase = (process.env.REACT_APP_API_URL || 'http://localhost:3001/api/v1').replace(/\/$/, '');
@@ -39,11 +41,12 @@ const Contact: React.FC = () => {
         }),
       });
 
+      const data = await response.json().catch(() => ({}));
+
       if (!response.ok) {
-        throw new Error('Error al enviar el mensaje');
+        throw new Error(data.message || (Array.isArray(data.message) ? data.message.join(', ') : 'Error al enviar el mensaje'));
       }
 
-      const data = await response.json();
       if (data.success) {
         setStatus('success');
         setFormData({
@@ -56,8 +59,9 @@ const Contact: React.FC = () => {
       } else {
         throw new Error(data.message || 'Error al enviar el mensaje');
       }
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      console.error('Error enviando contacto:', error);
+      setErrorMessage(error.message || 'Hubo un error al enviar tu mensaje. Por favor, inténtalo de nuevo o contáctanos por otro medio.');
       setStatus('error');
     }
   };
@@ -206,7 +210,7 @@ const Contact: React.FC = () => {
               )}
               {status === 'error' && (
                 <div style={styles.alertError}>
-                  Hubo un error al enviar tu mensaje. Por favor, inténtalo de nuevo o contáctanos por otro medio.
+                  {errorMessage || 'Hubo un error al enviar tu mensaje. Por favor, inténtalo de nuevo o contáctanos por otro medio.'}
                 </div>
               )}
 

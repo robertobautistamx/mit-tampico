@@ -8,16 +8,20 @@ export class ContactoService {
   private transporter: nodemailer.Transporter;
 
   constructor(private readonly configService: ConfigService) {
+    const host = this.configService.get<string>('SMTP_HOST', 'smtp.gmail.com');
+    const port = Number(this.configService.get('SMTP_PORT', 587));
+    const user = this.configService.get<string>('SMTP_USER') || '';
+    const pass = this.configService.get<string>('SMTP_PASS') || '';
+
     this.transporter = nodemailer.createTransport({
-      host: this.configService.get<string>('SMTP_HOST', 'smtp.office365.com'),
-      port: this.configService.get<number>('SMTP_PORT', 587),
-      secure: false,
+      host,
+      port,
+      secure: port === 465,
       auth: {
-        user: this.configService.get<string>('SMTP_USER'),
-        pass: this.configService.get<string>('SMTP_PASS'),
+        user,
+        pass,
       },
       tls: {
-        ciphers: 'SSLv3',
         rejectUnauthorized: false,
       },
     });
@@ -25,11 +29,13 @@ export class ContactoService {
 
   async enviarMensaje(nombre: string, email: string, telefono: string, mensaje?: string): Promise<boolean> {
     const to = this.configService.get<string>('SMTP_TO');
-    const from = this.configService.get<string>('SMTP_FROM', `"Contacto MIT Tampico" <${this.configService.get<string>('SMTP_USER')}>`);
+    const user = this.configService.get<string>('SMTP_USER');
+    const pass = this.configService.get<string>('SMTP_PASS');
+    const from = this.configService.get<string>('SMTP_FROM', `"Contacto MIT Tampico" <${user}>`);
 
-    if (!to || !this.configService.get<string>('SMTP_USER') || !this.configService.get<string>('SMTP_PASS')) {
-      this.logger.error('SMTP configuration is incomplete in .env file.');
-      throw new InternalServerErrorException('El servicio de correo no está configurado correctamente.');
+    if (!to || !user || !pass) {
+      this.logger.error('La configuración SMTP está incompleta en las variables de entorno.');
+      throw new InternalServerErrorException('El servicio de correo no está configurado correctamente en las variables de entorno.');
     }
 
     const htmlContent = `
