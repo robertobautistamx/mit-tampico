@@ -51,11 +51,21 @@ const Header: React.FC = () => {
 
   useEffect(() => {
     // Prevenir el scroll del fondo cuando el menú móvil a pantalla completa está abierto
-    if (isMobile) {
-      document.body.style.overflow = isMenuOpen ? 'hidden' : 'unset';
+    if (isMobile && isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.touchAction = 'none';
     } else {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      document.body.style.touchAction = '';
     }
+
+    return () => {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      document.body.style.touchAction = '';
+    };
   }, [isMenuOpen, isMobile]);
 
   const styles = getStyles(isScrolled, isMobile, hoveredItem, isMenuOpen, activeItem);

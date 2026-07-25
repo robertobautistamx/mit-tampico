@@ -3,13 +3,30 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const rawFrontend = process.env.FRONTEND_URL || '';
+  const rawPanel = process.env.PANEL_URL || '';
+  const allowedOrigins = [
+    ...rawFrontend.split(','),
+    ...rawPanel.split(','),
+  ]
+    .map(url => url.trim().replace(/\/$/, ''))
+    .filter(Boolean);
+
   app.enableCors({
-    origin: process.env.NODE_ENV === 'production'
-      ? [
-          ...((process.env.FRONTEND_URL || '').split(',')),
-          ...((process.env.PANEL_URL || '').split(',')),
-        ].map(url => url.trim()).filter((url): url is string => !!url)
-      : true,
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+
+      if (process.env.NODE_ENV !== 'production' || allowedOrigins.length === 0) {
+        return callback(null, true);
+      }
+
+      const cleanOrigin = origin.replace(/\/$/, '');
+      if (allowedOrigins.some(o => o === '*' || o === cleanOrigin)) {
+        return callback(null, true);
+      }
+
+      return callback(null, true);
+    },
     credentials: true,
   });
   app.setGlobalPrefix('api/v1');

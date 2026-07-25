@@ -22,7 +22,11 @@ const Contact: React.FC = () => {
     setStatus('submitting');
 
     try {
-      const response = await fetch('/api/v1/contacto', {
+      let apiBase = (process.env.REACT_APP_API_URL || 'http://localhost:3001/api/v1').replace(/\/$/, '');
+      if (!apiBase.endsWith('/api/v1') && !apiBase.endsWith('/api/v1/')) {
+        apiBase = `${apiBase}/api/v1`;
+      }
+      const response = await fetch(`${apiBase}/contacto`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -179,7 +183,7 @@ const Contact: React.FC = () => {
           }
         `}
       </style>
-      
+
       <div className="contact-container" style={styles.container}>
         {/* Columna Izquierda - Mensaje */}
         <div className="contact-left-col" style={styles.leftCol}>
@@ -205,46 +209,46 @@ const Contact: React.FC = () => {
                   Hubo un error al enviar tu mensaje. Por favor, inténtalo de nuevo o contáctanos por otro medio.
                 </div>
               )}
-              
-              <Input 
-                label="Nombre*" 
-                type="text" 
-                placeholder="Nombre*" 
-                required 
+
+              <Input
+                label="Nombre*"
+                type="text"
+                placeholder="Nombre*"
+                required
                 value={formData.nombre}
                 disabled={status === 'submitting'}
                 onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
               />
-              <Input 
-                label="Email*" 
-                type="email" 
-                placeholder="Email*" 
-                required 
+              <Input
+                label="Email*"
+                type="email"
+                placeholder="Email*"
+                required
                 value={formData.email}
                 disabled={status === 'submitting'}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               />
-              <Input 
-                label="Teléfono*" 
-                type="tel" 
-                placeholder="Teléfono*" 
-                required 
+              <Input
+                label="Teléfono*"
+                type="tel"
+                placeholder="Teléfono*"
+                required
                 value={formData.telefono}
                 disabled={status === 'submitting'}
                 onChange={(e) => setFormData({ ...formData, telefono: e.target.value })}
               />
-              <Textarea 
-                label="Mensaje (opcional)" 
-                placeholder="Mensaje (opcional)" 
+              <Textarea
+                label="Mensaje (opcional)"
+                placeholder="Mensaje (opcional)"
                 value={formData.mensaje}
                 disabled={status === 'submitting'}
                 onChange={(e) => setFormData({ ...formData, mensaje: e.target.value })}
               />
-              
+
               <label style={styles.checkboxContainer}>
-                <input 
-                  type="checkbox" 
-                  style={styles.checkbox} 
+                <input
+                  type="checkbox"
+                  style={styles.checkbox}
                   required
                   checked={formData.aceptado}
                   disabled={status === 'submitting'}
@@ -255,8 +259,8 @@ const Contact: React.FC = () => {
                 </span>
               </label>
 
-              <Button 
-                variant="primary" 
+              <Button
+                variant="primary"
                 type="submit"
                 disabled={status === 'submitting'}
                 customStyles={{ marginTop: '1rem', width: '100%', padding: '0.9rem' }}
