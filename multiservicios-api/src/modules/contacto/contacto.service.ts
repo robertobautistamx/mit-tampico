@@ -13,31 +13,21 @@ export class ContactoService {
     const user = (this.configService.get<string>('SMTP_USER') || '').trim();
     const pass = (this.configService.get<string>('SMTP_PASS') || '').replace(/\s+/g, '');
 
-    if (host.includes('gmail') || !this.configService.get('SMTP_HOST')) {
-      this.transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          user,
-          pass,
-        },
-      });
-    } else {
-      this.transporter = nodemailer.createTransport({
-        host,
-        port,
-        secure: port === 465,
-        auth: {
-          user,
-          pass,
-        },
-        connectionTimeout: 15000,
-        greetingTimeout: 15000,
-        socketTimeout: 15000,
-        tls: {
-          rejectUnauthorized: false,
-        },
-      });
-    }
+    this.transporter = nodemailer.createTransport({
+      host: host.includes('gmail') ? 'smtp.gmail.com' : host,
+      port: 465,
+      secure: true,
+      auth: {
+        user,
+        pass,
+      },
+      connectionTimeout: 10000,
+      greetingTimeout: 10000,
+      socketTimeout: 10000,
+      tls: {
+        rejectUnauthorized: false,
+      },
+    });
   }
 
   async enviarMensaje(nombre: string, email: string, telefono: string, mensaje?: string): Promise<boolean> {
@@ -86,13 +76,21 @@ export class ContactoService {
     `;
 
     try {
-      await this.transporter.sendMail({
+      const sendPromise = this.transporter.sendMail({
         from: from,
         to: to,
         subject: `Nuevo contacto: ${nombre}`,
         text: `Nuevo contacto de: ${nombre}\nEmail: ${email}\nTeléfono: ${telefono}\nMensaje: ${mensaje || 'Sin mensaje adicional.'}`,
         html: htmlContent,
       });
+
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => {
+          reject(new Error('Tiempo de espera agotado (10s) al conectar con el servidor SMTP. Verifica las variables SMTP en Railway.'));
+        }, 10000);
+      });
+
+      await Promise.race([sendPromise, timeoutPromise]);
 
       this.logger.log(`Mensaje de contacto enviado con éxito de ${email}`);
       return true;
