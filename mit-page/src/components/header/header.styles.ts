@@ -70,6 +70,8 @@ export const getStyles = (isScrolled: boolean, isMobile: boolean, hoveredItem: s
     padding: isMobile ? '8rem 2rem 4rem' : 0,
     boxSizing: 'border-box',
     overflowY: isMobile ? 'auto' : 'visible',
+    overscrollBehavior: isMobile ? 'contain' : 'auto',
+    touchAction: isMobile ? 'pan-y' : 'auto',
     gap: isMobile ? '3rem' : '2rem',
     alignItems: 'center',
     justifyContent: isMobile ? 'flex-start' : 'center',
