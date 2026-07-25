@@ -35,11 +35,7 @@ export class ContactoService {
     const user = (this.configService.get<string>('SMTP_USER') || '').trim();
     const pass = (this.configService.get<string>('SMTP_PASS') || '').replace(/\s+/g, '');
     const from = this.configService.get<string>('SMTP_FROM', `"Contacto MIT Tampico" <${user}>`);
-
-    if (!to || !user || !pass) {
-      this.logger.error('La configuración SMTP está incompleta en las variables de entorno.');
-      throw new InternalServerErrorException('Faltan configurar las variables SMTP_USER, SMTP_PASS o SMTP_TO en las variables de entorno.');
-    }
+    const resendApiKey = (this.configService.get<string>('RESEND_API_KEY') || '').trim();
 
     const htmlContent = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
@@ -75,6 +71,42 @@ export class ContactoService {
       </div>
     `;
 
+    // Si se configuró RESEND_API_KEY en Railway, se usa Resend API vía HTTPS (Puerto 443 - NUNCA bloqueado)
+    if (resendApiKey) {
+      try {
+        const targetEmail = to || 'serv.integralestampico@outlook.com';
+        const resendRes = await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${resendApiKey}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            from: 'MIT Tampico <onboarding@resend.dev>',
+            to: [targetEmail],
+            subject: `Nuevo contacto: ${nombre}`,
+            html: htmlContent,
+          }),
+        });
+
+        const resData = await resendRes.json().catch(() => ({}));
+        if (!resendRes.ok) {
+          throw new Error(resData.message || resData.error || 'Fallo al enviar correo con Resend API');
+        }
+
+        this.logger.log(`Mensaje de contacto enviado con éxito (Resend) de ${email}`);
+        return true;
+      } catch (err: any) {
+        this.logger.error('Error enviando con Resend API:', err);
+        throw new InternalServerErrorException(`Error Resend: ${err.message || err}`);
+      }
+    }
+
+    if (!to || !user || !pass) {
+      this.logger.error('La configuración SMTP está incompleta en las variables de entorno.');
+      throw new InternalServerErrorException('Faltan configurar las variables SMTP_USER, SMTP_PASS o SMTP_TO en las variables de entorno.');
+    }
+
     try {
       const sendPromise = this.transporter.sendMail({
         from: from,
@@ -86,7 +118,7 @@ export class ContactoService {
 
       const timeoutPromise = new Promise((_, reject) => {
         setTimeout(() => {
-          reject(new Error('Tiempo de espera agotado (10s) al conectar con el servidor SMTP. Verifica las variables SMTP en Railway.'));
+          reject(new Error('Railway bloqueó la salida por puerto SMTP 465 (10s timeout). Te recomendamos usar RESEND_API_KEY o solicitar des-bloqueo a Railway.'));
         }, 10000);
       });
 
