@@ -74,7 +74,11 @@ export class ContactoService {
     // Si se configuró RESEND_API_KEY en Railway, se usa Resend API vía HTTPS (Puerto 443 - NUNCA bloqueado)
     if (resendApiKey) {
       try {
-        const targetEmail = to || 'serv.integralestampico@outlook.com';
+        const targetEmail = to || user;
+        if (!targetEmail) {
+          throw new Error('Falta configurar la variable SMTP_TO o SMTP_USER en las variables de entorno.');
+        }
+
         const resendRes = await fetch('https://api.resend.com/emails', {
           method: 'POST',
           headers: {
