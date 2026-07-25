@@ -10,35 +10,45 @@ export class ContactoService {
   constructor(private readonly configService: ConfigService) {
     const host = this.configService.get<string>('SMTP_HOST', 'smtp.gmail.com');
     const port = Number(this.configService.get('SMTP_PORT', 465));
-    const user = this.configService.get<string>('SMTP_USER') || '';
-    const pass = this.configService.get<string>('SMTP_PASS') || '';
+    const user = (this.configService.get<string>('SMTP_USER') || '').trim();
+    const pass = (this.configService.get<string>('SMTP_PASS') || '').replace(/\s+/g, '');
 
-    this.transporter = nodemailer.createTransport({
-      host,
-      port,
-      secure: port === 465,
-      auth: {
-        user,
-        pass,
-      },
-      connectionTimeout: 10000, // 10 segundos timeout de conexión
-      greetingTimeout: 10000,
-      socketTimeout: 10000,
-      tls: {
-        rejectUnauthorized: false,
-      },
-    });
+    if (host.includes('gmail') || !this.configService.get('SMTP_HOST')) {
+      this.transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user,
+          pass,
+        },
+      });
+    } else {
+      this.transporter = nodemailer.createTransport({
+        host,
+        port,
+        secure: port === 465,
+        auth: {
+          user,
+          pass,
+        },
+        connectionTimeout: 15000,
+        greetingTimeout: 15000,
+        socketTimeout: 15000,
+        tls: {
+          rejectUnauthorized: false,
+        },
+      });
+    }
   }
 
   async enviarMensaje(nombre: string, email: string, telefono: string, mensaje?: string): Promise<boolean> {
-    const to = this.configService.get<string>('SMTP_TO');
-    const user = this.configService.get<string>('SMTP_USER');
-    const pass = this.configService.get<string>('SMTP_PASS');
+    const to = (this.configService.get<string>('SMTP_TO') || '').trim();
+    const user = (this.configService.get<string>('SMTP_USER') || '').trim();
+    const pass = (this.configService.get<string>('SMTP_PASS') || '').replace(/\s+/g, '');
     const from = this.configService.get<string>('SMTP_FROM', `"Contacto MIT Tampico" <${user}>`);
 
     if (!to || !user || !pass) {
       this.logger.error('La configuración SMTP está incompleta en las variables de entorno.');
-      throw new InternalServerErrorException('El servicio de correo no está configurado correctamente en las variables de entorno.');
+      throw new InternalServerErrorException('Faltan configurar las variables SMTP_USER, SMTP_PASS o SMTP_TO en las variables de entorno.');
     }
 
     const htmlContent = `
@@ -86,9 +96,10 @@ export class ContactoService {
 
       this.logger.log(`Mensaje de contacto enviado con éxito de ${email}`);
       return true;
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error('Error al enviar correo SMTP:', error);
-      throw new InternalServerErrorException('Ocurrió un error al intentar enviar el correo electrónico.');
+      const detail = error?.message ? `: ${error.message}` : '';
+      throw new InternalServerErrorException(`Error SMTP${detail}`);
     }
   }
 }
