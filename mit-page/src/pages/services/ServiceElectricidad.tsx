@@ -40,7 +40,7 @@ const ServiceElectricidad: React.FC = () => {
           top: 0; left: 0;
           width: 100%; height: 100%;
           background-image: linear-gradient(rgba(15,23,42,0.70), rgba(15,23,42,0.85)),
-            url("https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=2069&auto=format&fit=crop");
+            url("https://images.unsplash.com/photo-1621905252507-b35492cc74b4?q=80&w=2069&auto=format&fit=crop");
           background-size: cover;
           background-position: center;
           filter: blur(8px) brightness(0.55);

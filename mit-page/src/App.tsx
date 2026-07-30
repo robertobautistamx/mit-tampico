@@ -11,6 +11,8 @@ import ServiceSistemas from './pages/services/ServiceSistemas';
 import ServiceElectricidad from './pages/services/ServiceElectricidad';
 import PoliticaPrivacidad from './pages/privacidad/PoliticaPrivacidad';
 
+import WhyChooseUs from './components/whychooseus/WhyChooseUs';
+
 function App() {
   const [hash, setHash] = useState(() => {
     const currentHash = window.location.hash;
@@ -51,9 +53,9 @@ function App() {
   }, []);
 
   const isAboutFull = hash === '#acerca';
-  const isServRefrig = hash === '#servicio-refrigeracion';
-  const isServSistemas = hash === '#servicio-sistemas';
-  const isServElec = hash === '#servicio-electricidad';
+  const isServRefrig = hash === '#servicio-refrigeracion' || hash === '#refrigeracion';
+  const isServSistemas = hash === '#servicio-sistemas' || hash === '#sistemas-informaticos' || hash === '#sistemas';
+  const isServElec = hash === '#servicio-electricidad' || hash === '#electricidad';
   const isPrivacidad = hash === '#privacidad';
   const isFullPage = isAboutFull || isServRefrig || isServSistemas || isServElec || isPrivacidad;
 
@@ -156,6 +158,7 @@ function App() {
         <div key="main-page" className="section-fade">
           <Inicio />
           <About isFull={false} />
+          <WhyChooseUs />
           <Services />
           <Projects />
           <Contact />

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Card from '../../components/card/Card';
-import { useImageGalleryItem } from '../../modules/images/images';
+import { useImageGallery } from '../../modules/images/images';
 import Button from '../../components/buttons/Button';
 
 const CheckIcon = () => (
@@ -46,12 +46,58 @@ const SparklesIcon = () => (
   </svg>
 );
 
+const GuaranteeIcon = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+    <polyline points="9 12 11 14 15 10"></polyline>
+  </svg>
+);
+
+const FastSpeedIcon = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+  </svg>
+);
+
+const TrainedStaffIcon = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+    <circle cx="8.5" cy="7" r="4"></circle>
+    <polyline points="17 11 19 13 23 9"></polyline>
+  </svg>
+);
+
+const SupportIcon = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+    <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
+  </svg>
+);
+
 interface AboutProps {
   isFull?: boolean;
 }
 
 const About: React.FC<AboutProps> = ({ isFull = false }) => {
-  const { image, loading } = useImageGalleryItem(1);
+  const { images, loading } = useImageGallery();
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const whyChooseUs = [
+    { title: 'Garantía en todos los trabajos', icon: <GuaranteeIcon /> },
+    { title: 'Atención rápida', icon: <FastSpeedIcon /> },
+    { title: 'Personal capacitado', icon: <TrainedStaffIcon /> },
+    { title: 'Soporte personalizado', icon: <SupportIcon /> },
+  ];
+
+  const validImages = images.filter((img) => !!img.image_url);
+
+  useEffect(() => {
+    if (validImages.length <= 1) return;
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % validImages.length);
+    }, 5000); // Cambia de imagen cada 5 segundos
+    return () => clearInterval(interval);
+  }, [validImages.length]);
 
   const getImageUrl = (url: string) => {
     if (!url) return '';
@@ -68,14 +114,13 @@ const About: React.FC<AboutProps> = ({ isFull = false }) => {
   };
 
   const defaultImage = "https://images.unsplash.com/photo-1581092921461-7031e4bf0e5c?q=80&w=2070&auto=format&fit=crop";
-  const imageSrc = image?.image_url ? getImageUrl(image.image_url) : defaultImage;
-  const imageAlt = image?.titulo || "Equipo técnico profesional trabajando";
 
   const styles = {
     section: {
       padding: isFull ? '0 0 6rem 0' : '6rem 2rem',
-      backgroundColor: '#F8FAFC', // Slate 50 para un fondo limpio
+      backgroundColor: '#FFFFFF', // Blanco puro limpio y luminoso
       overflow: 'hidden',
+      position: 'relative',
     } as React.CSSProperties,
     container: {
       maxWidth: '1200px',
@@ -83,18 +128,18 @@ const About: React.FC<AboutProps> = ({ isFull = false }) => {
       padding: isFull ? '0 2rem' : '0',
     } as React.CSSProperties,
 
-    // HERO ORIGINAL E INTUITIVO PARA LA VISTA DETALLADA (Sin copiar a SoftwareOne)
+    // HERO ORIGINAL E INTUITIVO PARA LA VISTA DETALLADA
     heroContainer: {
       position: 'relative',
       width: '100%',
-      minHeight: '260px', // Altura reducida para hacerlo más chico y dinámico
+      minHeight: '260px',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
       textAlign: 'center',
       boxSizing: 'border-box',
-      padding: '100px 2rem 2.5rem 2rem', // Espacio ajustado para el header transparente
+      padding: '100px 2rem 2.5rem 2rem',
       marginBottom: '4rem',
       overflow: 'hidden',
     } as React.CSSProperties,
@@ -107,8 +152,8 @@ const About: React.FC<AboutProps> = ({ isFull = false }) => {
       backgroundImage: 'linear-gradient(rgba(15, 23, 42, 0.70), rgba(15, 23, 42, 0.85)), url("https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=2069&auto=format&fit=crop")',
       backgroundSize: 'cover',
       backgroundPosition: 'center',
-      filter: 'blur(8px) brightness(0.55)', // Imagen desenfocada y oscurecida para legibilidad
-      transform: 'scale(1.1)', // Para evitar bordes blancos causados por el filtro de desenfoque
+      filter: 'blur(8px) brightness(0.55)',
+      transform: 'scale(1.1)',
       zIndex: 1,
     } as React.CSSProperties,
     heroDecorativeGrid: {
@@ -147,7 +192,7 @@ const About: React.FC<AboutProps> = ({ isFull = false }) => {
       textTransform: 'uppercase',
     } as React.CSSProperties,
     heroTitle: {
-      fontSize: 'clamp(1.5rem, 3.5vw, 2.35rem)', // Más compacto y balanceado
+      fontSize: 'clamp(1.5rem, 3.5vw, 2.35rem)',
       fontWeight: 800,
       lineHeight: 1.2,
       color: '#FFFFFF',
@@ -162,7 +207,7 @@ const About: React.FC<AboutProps> = ({ isFull = false }) => {
     },
     heroDesc: {
       fontSize: 'clamp(1rem, 2vw, 1.15rem)',
-      color: '#CBD5E1', // Gris más claro para excelente legibilidad sobre el fondo desenfocado
+      color: '#CBD5E1',
       lineHeight: 1.7,
       maxWidth: '650px',
       margin: 0,
@@ -209,7 +254,7 @@ const About: React.FC<AboutProps> = ({ isFull = false }) => {
       color: '#475569',
       lineHeight: 1.8,
       marginBottom: '1.5rem',
-      textAlign: 'justify', // Texto justificado para alineación profesional y limpia
+      textAlign: 'justify',
     } as React.CSSProperties,
     list: {
       listStyle: 'none',
@@ -506,11 +551,63 @@ const About: React.FC<AboutProps> = ({ isFull = false }) => {
               <div className="skeleton-about" style={{ position: 'relative', zIndex: 2 }} />
             ) : (
               <div style={{ ...styles.imageWrapper, position: 'relative', zIndex: 2 }}>
-                <img
-                  src={imageSrc}
-                  alt={imageAlt}
-                  style={styles.image}
-                />
+                {validImages.length === 0 ? (
+                  <img
+                    src={defaultImage}
+                    alt="Equipo técnico profesional trabajando"
+                    style={styles.image}
+                  />
+                ) : (
+                  validImages.map((img, index) => (
+                    <img
+                      key={img.id}
+                      src={getImageUrl(img.image_url)}
+                      alt={img.titulo || 'Equipo técnico profesional'}
+                      style={{
+                        ...styles.image,
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        opacity: index === currentImageIndex ? 1 : 0,
+                        transition: 'opacity 1.5s ease-in-out',
+                      }}
+                    />
+                  ))
+                )}
+
+                {validImages.length > 1 && (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      bottom: '1rem',
+                      left: '50%',
+                      transform: 'translateX(-50%)',
+                      display: 'flex',
+                      gap: '0.4rem',
+                      zIndex: 10,
+                      backgroundColor: 'rgba(15, 23, 42, 0.5)',
+                      backdropFilter: 'blur(6px)',
+                      padding: '0.4rem 0.8rem',
+                      borderRadius: '20px',
+                      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+                    }}
+                  >
+                    {validImages.map((_, idx) => (
+                      <span
+                        key={idx}
+                        onClick={() => setCurrentImageIndex(idx)}
+                        style={{
+                          width: idx === currentImageIndex ? '18px' : '6px',
+                          height: '6px',
+                          borderRadius: '3px',
+                          backgroundColor: idx === currentImageIndex ? '#3B82F6' : 'rgba(255, 255, 255, 0.6)',
+                          transition: 'all 0.3s ease',
+                          cursor: 'pointer',
+                        }}
+                      />
+                    ))}
+                  </div>
+                )}
               </div>
             )}
           </div>

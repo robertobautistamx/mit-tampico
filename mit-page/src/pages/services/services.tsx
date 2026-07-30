@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Card from '../../components/card/Card';
 
 const AcIcon = () => (
@@ -20,14 +20,48 @@ const ZapIcon = () => (
 );
 
 const Services: React.FC = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.15 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   const styles = {
     section: {
-      padding: 'clamp(4rem, 10vh, 6rem) clamp(1rem, 5vw, 2rem)',
-      background: 'linear-gradient(180deg, #F8FAFC 0%, #F1F5F9 100%)', // Fondo neutral claro suave para que resalten las tarjetas
+      padding: 'clamp(5rem, 10vh, 7rem) clamp(1rem, 5vw, 2rem)',
+      background: 'linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 35%, #F1F5F9 100%)',
+      position: 'relative',
+      overflow: 'hidden',
+    } as React.CSSProperties,
+    topFadeOverlay: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      height: '120px',
+      background: 'linear-gradient(180deg, #FFFFFF 0%, rgba(255,255,255,0) 100%)',
+      pointerEvents: 'none',
+      zIndex: 2,
     } as React.CSSProperties,
     container: {
       maxWidth: '1200px',
       margin: '0 auto',
+      position: 'relative',
+      zIndex: 3,
     } as React.CSSProperties,
     headerContainer: {
       textAlign: 'center',
@@ -35,7 +69,7 @@ const Services: React.FC = () => {
     } as React.CSSProperties,
     badge: {
       display: 'inline-block',
-      padding: '0.4rem 1.25rem',
+      padding: '0.45rem 1.25rem',
       backgroundColor: '#FFFFFF',
       color: '#2563EB',
       borderRadius: '20px',
@@ -57,7 +91,7 @@ const Services: React.FC = () => {
     } as React.CSSProperties,
     grid: {
       display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', // Ajuste responsivo de columnas
+      gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
       gap: '2rem',
     } as React.CSSProperties,
   };
@@ -69,7 +103,10 @@ const Services: React.FC = () => {
       title: 'Refrigeración',
       colorScheme: 'cyan',
       icon: <AcIcon />,
-      description: 'Brindamos soluciones profesionales en instalación, mantenimiento y reparación de sistemas de aire acondicionado para hogares y negocios. Nuestro compromiso es garantizar tu confort mediante trabajos de calidad, atención rápida y precios justos.',
+      badge: 'Climatización',
+      image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=800&auto=format&fit=crop',
+      tags: ['Aire Acondicionado', 'Mantenimiento', 'Carga de Gas'],
+      description: 'Brindamos soluciones profesionales en instalación, mantenimiento y reparación de sistemas de aire acondicionado para hogares y negocios. Garantizamos confort y eficiencia.',
     },
     {
       id: 'sistemas-informaticos',
@@ -77,7 +114,10 @@ const Services: React.FC = () => {
       title: 'Sistemas Informáticos',
       colorScheme: 'purple',
       icon: <CodeIcon />,
-      description: 'Ofrecemos soluciones integrales en informática para hogares, negocios y emprendedores. Nos especializamos en creación de páginas web, mantenimiento de equipos de cómputo y reparación de dispositivos, garantizando un servicio confiable y de calidad.',
+      badge: 'Tecnología',
+      image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=800&auto=format&fit=crop',
+      tags: ['Desarrollo Web', 'Soporte PC'],
+      description: 'Ofrecemos soluciones integrales en informática para hogares y negocios. Nos especializamos en creación de páginas web, mantenimiento de cómputo y soporte técnico.',
     },
     {
       id: 'electricidad',
@@ -85,35 +125,62 @@ const Services: React.FC = () => {
       title: 'Electricidad',
       colorScheme: 'amber',
       icon: <ZapIcon />,
-      description: 'Brindamos servicios eléctricos seguros y profesionales para hogares y negocios. Realizamos instalaciones, reparaciones y mantenimiento con atención a los detalles y cumplimiento de normas para garantizar un funcionamiento eficiente y sin riesgos.',
+      badge: 'Instalaciones',
+      image: 'https://images.unsplash.com/photo-1621905252507-b35492cc74b4?q=80&w=800&auto=format&fit=crop',
+      tags: ['Residencial & Comercial', 'Tableros', 'Emergencias 24/7'],
+      description: 'Servicios eléctricos seguros y profesionales para hogares y negocios. Realizamos instalaciones, reparaciones y mantenimiento bajo estrictas normas de seguridad.',
     }
   ];
 
   return (
-    <section id="servicios" style={styles.section}>
+    <section id="servicios" ref={sectionRef} style={styles.section}>
+      <div style={styles.topFadeOverlay} />
       <style>{`
         .service-card-link {
           text-decoration: none;
           color: inherit;
           display: block;
-          transition: transform 0.25s ease;
+          transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .service-card-link:hover {
-          transform: translateY(-4px);
+          transform: translateY(-6px);
+        }
+
+        /* --- ANIMACIÓN DESVANECIDO DE ENTRADA --- */
+        .reveal-header {
+          opacity: 0;
+          transform: translateY(30px);
+          transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-header.is-in-view {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        .reveal-card {
+          opacity: 0;
+          transform: translateY(40px);
+          transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-card.is-in-view {
+          opacity: 1;
+          transform: translateY(0);
         }
       `}</style>
+
       <div style={styles.container}>
-        <div style={styles.headerContainer}>
+        <div className={`styles.headerContainer reveal-header ${isVisible ? 'is-in-view' : ''}`} style={styles.headerContainer}>
           <span style={styles.badge}>Servicios</span>
           <h2 style={styles.title}>Lo que ofrecemos</h2>
         </div>
 
         <div style={styles.grid}>
-          {servicesData.map((service) => (
+          {servicesData.map((service, index) => (
             <a
               key={service.id}
               href={`#${service.hash || service.id}`}
-              className="service-card-link"
+              className={`service-card-link reveal-card ${isVisible ? 'is-in-view' : ''}`}
+              style={{ transitionDelay: `${0.15 * (index + 1)}s` }}
             >
               <Card
                 id={service.id}
@@ -122,6 +189,9 @@ const Services: React.FC = () => {
                 description={service.description}
                 icon={service.icon}
                 colorScheme={service.colorScheme as any}
+                image={service.image}
+                badge={service.badge}
+                tags={service.tags}
               />
             </a>
           ))}
