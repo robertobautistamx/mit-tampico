@@ -216,7 +216,7 @@ const Background: React.FC = () => {
           />
         ))
       )}
-      
+
       <div style={styles.overlay} />
       {/* Canvas con partículas interconectadas tipo tech */}
       <ParticleCanvas />
