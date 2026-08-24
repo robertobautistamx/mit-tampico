@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Card from '../../components/card/Card';
 import { useImageGallery } from '../../modules/images/images';
 import Button from '../../components/buttons/Button';
 
@@ -30,7 +29,7 @@ const ValuesIcon = () => (
   </svg>
 );
 
-const TrophyIcon = () => (
+/* const TrophyIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
     <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
@@ -38,13 +37,13 @@ const TrophyIcon = () => (
     <path d="M10 14.66V17c0 .55-.45 1-1 1H4v2h16v-2h-5c-.55 0-1-.45-1-1v-2.34"></path>
     <path d="M12 2a6 6 0 0 1 6 6v5a6 6 0 0 1-6 6 6 6 0 0 1-6-6V8a6 6 0 0 1 6-6z"></path>
   </svg>
-);
+); */
 
-const SparklesIcon = () => (
+/* const SparklesIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m11.314 11.314l.707.707M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10z"></path>
   </svg>
-);
+); */
 
 const GuaranteeIcon = () => (
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">

@@ -21,7 +21,6 @@ const ArrowRightIcon = () => (
 
 const Card: React.FC<CardProps> = ({ id, title, description, icon, variant = 'service', colorScheme, image, badge, tags }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const isService = variant === 'service';
 
   const schemes = {
     cyan: {

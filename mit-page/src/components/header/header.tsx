@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { navItems } from '../../modules/header/header.data';
 import { getStyles } from './header.styles';
-import { DropdownIcon, MenuIcon, CartIcon, UserIcon, GlobeIcon } from './header.icons';
+import { DropdownIcon, MenuIcon } from './header.icons';
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
