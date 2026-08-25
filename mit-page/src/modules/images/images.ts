@@ -30,7 +30,7 @@ export const STATIC_IMAGES: ImageGalleryItem[] = [
         id: 3,
         titulo: "Servicio Técnico en Computadoras",
         descripcion: "Mantenimiento preventivo y correctivo para computadoras y laptops, optimizando su rendimiento mediante limpieza, actualización y reparación de hardware y software.",
-        image_url: "https://res.cloudinary.com/df7ejbrre/image/upload/v1784085361/i3_yr15uw.jpg",
+        image_url: "https://res.cloudinary.com/df7ejbrre/image/upload/v1784085361/i3_yrl5uw.jpg",
         categoria: {
             id: 39,
             nombre: "Sistemas Informáticos"
@@ -148,4 +148,4 @@ export const useImageGalleryItem = (id: number) => {
     }, [fetchImage]);
 
     return { image, loading, error, refetch: fetchImage };
-};
+};
