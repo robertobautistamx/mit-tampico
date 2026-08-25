@@ -233,7 +233,7 @@ const Dashboard: React.FC = () => {
           )}
         </Card>
 
-        {/* Accesos Directos (Quick Actions) */}
+        {/* Accesos directos */}
         <Box sx={{ display: 'flex', gap: 2, mb: 4, flexWrap: 'wrap', animation: `${fadeUp} 0.6s ease-out both`, animationDelay: '0.05s' }}>
           <Button 
             variant="contained" 
