@@ -106,7 +106,7 @@ const Footer: React.FC = () => {
         <div style={styles.footerGrid}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', marginBottom: '1.25rem' }}>
-              <img src="/Logo-PNG.png" alt="Logo Multiservicios" style={{ height: '48px', width: 'auto', objectFit: 'contain' }} />
+              <img src="/Logo-Transparente-Illustrator.png" alt="Logo Multiservicios" style={{ height: '48px', width: 'auto', objectFit: 'contain' }} />
               <div>
                 <h3 style={{ margin: 0, fontSize: '1.2rem', fontWeight: 800, color: '#FFF', letterSpacing: '-0.01em', lineHeight: 1.2 }}>Multiservicios Integrales</h3>
                 <p style={{ margin: 0, color: '#3B82F6', fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.02em', textTransform: 'uppercase' }}>Tampico</p>
@@ -118,16 +118,16 @@ const Footer: React.FC = () => {
               Lun - Vie: 08:00 - 18:00 | Sáb: 08:00 - 13:00
             </p>
             <div style={styles.socialContainer}>
-              <a href="#facebook" className="footer-social-icon" style={styles.socialIcon} aria-label="Facebook"><FacebookIcon /></a>
-              <a href="#instagram" className="footer-social-icon" style={styles.socialIcon} aria-label="Instagram"><InstagramIcon /></a>
-              <a href="#whatsapp" className="footer-social-icon" style={styles.socialIcon} aria-label="WhatsApp"><WhatsAppIcon /></a>
+              <a href="https://www.facebook.com/share/1DmuNRLLpr/" target="_blank" rel="noopener noreferrer" className="footer-social-icon" style={styles.socialIcon} aria-label="Facebook"><FacebookIcon /></a>
+              <a href="#instagram" onClick={(e) => e.preventDefault()} className="footer-social-icon" style={styles.socialIcon} aria-label="Instagram (Próximamente)" title="Próximamente"><InstagramIcon /></a>
+              <a href="https://wa.me/528331474478" target="_blank" rel="noopener noreferrer" className="footer-social-icon" style={styles.socialIcon} aria-label="WhatsApp"><WhatsAppIcon /></a>
             </div>
           </div>
           <div>
             <h3 style={styles.footerTitle}>Contacto</h3>
             <p style={styles.footerText}><strong>Dirección:</strong> Tampico, Madero, Altamira y alrededores (Tamaulipas), Villahermosa (Tabasco)</p>
             <p style={styles.footerText}><strong>Email:</strong> serv.integralestampico@outlook.com</p>
-            <p style={styles.footerText}><strong>Tel:</strong> +52 833 310 2201<br /><strong>Tel:</strong> +52 833 147 4478</p>
+            <p style={styles.footerText}><strong>Tel:</strong> +52 833 147 4478<br /><strong>Tel:</strong> +52 833 382 1860</p>
           </div>
           <div>
             <h3 style={styles.footerTitle}>Enlaces</h3>

@@ -116,7 +116,7 @@ const Services: React.FC = () => {
       icon: <CodeIcon />,
       badge: 'Tecnología',
       image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=800&auto=format&fit=crop',
-      tags: ['Desarrollo Web', 'Soporte PC'],
+      tags: ['Desarrollo Web', 'Apps Móviles', 'Soporte PC'],
       description: 'Ofrecemos soluciones integrales en informática para hogares y negocios. Nos especializamos en creación de páginas web, mantenimiento de cómputo y soporte técnico.',
     },
     {

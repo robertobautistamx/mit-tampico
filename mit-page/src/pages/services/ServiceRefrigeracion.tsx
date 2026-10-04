@@ -13,9 +13,8 @@ const ServiceRefrigeracion: React.FC = () => {
     'Mantenimiento preventivo y correctivo de equipos',
     'Reparación de fallas eléctricas y mecánicas en A/C',
     'Carga y recarga de gas refrigerante',
-    'Instalación de sistemas centrales y de ductos',
     'Revisión y limpieza de filtros y evaporadores',
-    'Diagnóstico técnico y presupuesto sin costo',
+    'Diagnóstico técnico',
     'Atención a domicilio en Tampico, Madero y Altamira',
   ];
 

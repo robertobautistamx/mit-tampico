@@ -11,12 +11,11 @@ const ServiceSistemas: React.FC = () => {
   const servicios = [
     'Desarrollo de páginas web profesionales y landing pages',
     'Mantenimiento y actualización de sitios web existentes',
+    'Desarrollo de apps móviles',
     'Reparación y diagnóstico de computadoras y laptops',
     'Instalación y configuración de software y sistemas operativos',
     'Soporte técnico remoto y a domicilio',
-    'Configuración de redes locales y Wi-Fi',
     'Recuperación de datos y respaldos',
-    'Asesoría tecnológica para pequeñas empresas',
   ];
 
   return (
