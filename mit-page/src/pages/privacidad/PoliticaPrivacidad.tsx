@@ -572,7 +572,7 @@ const PoliticaPrivacidad: React.FC = () => {
               <span>Correo electrónico de contacto:</span>
               <a href="mailto:serv.integralestampico@outlook.com">serv.integralestampico@outlook.com</a>
               <span>Teléfonos de contacto:</span>
-              <span style={{ color: '#1E293B', fontWeight: 500 }}>+52 833 310 2201 / +52 833 147 4478</span>
+              <span style={{ color: '#1E293B', fontWeight: 500 }}>+52 833 147 4478 / +52 833 382 1860</span>
             </div>
             <div className="privacy-button-group">
               <Button variant="secondary" onClick={() => { window.location.hash = '#inicio'; }}>

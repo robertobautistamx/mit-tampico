@@ -7,14 +7,17 @@ const CheckIcon = () => (
   </svg>
 );
 
-const ServiceElectricidad: React.FC = () => {
+interface ServiceElectricidadProps {
+  onOpenCotizador?: () => void;
+}
+
+const ServiceElectricidad: React.FC<ServiceElectricidadProps> = ({ onOpenCotizador }) => {
   const servicios = [
     'Instalaciones eléctricas residenciales y comerciales',
     'Reparación de fallas eléctricas y cortocircuitos',
     'Cambio y actualización de tableros eléctricos',
     'Instalación de lámparas, contactos y apagadores',
     'Revisión y certificación de instalaciones',
-    'Instalación de sistemas de tierra física',
     'Proyectos eléctricos industriales',
     'Atención a emergencias eléctricas las 24h',
   ];
@@ -129,6 +132,32 @@ const ServiceElectricidad: React.FC = () => {
           <h1 className="srv-elec-title">
             Electricidad Segura y <span>Profesional en tu Hogar</span>
           </h1>
+          {onOpenCotizador && (
+            <button
+              onClick={onOpenCotizador}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.6rem',
+                marginTop: '0.5rem',
+                padding: '0.85rem 1.75rem',
+                backgroundColor: '#F59E0B',
+                color: '#0F172A',
+                borderRadius: '50px',
+                border: 'none',
+                fontWeight: 800,
+                fontSize: '0.95rem',
+                cursor: 'pointer',
+                boxShadow: '0 8px 25px rgba(245, 158, 11, 0.4)',
+                transition: 'transform 0.2s',
+              }}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F172A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+              </svg>
+              Crear Cotización de Electricidad (Excel)
+            </button>
+          )}
         </div>
       </div>
 
@@ -144,6 +173,36 @@ const ServiceElectricidad: React.FC = () => {
           <p style={{ color: '#64748B', marginTop: '1rem', fontSize: '1rem', lineHeight: 1.7, maxWidth: '580px', margin: '1rem auto 0' }}>
             Trabajos eléctricos seguros y eficientes con apego a normativa, materiales certificados y garantía en cada instalación.
           </p>
+
+          {onOpenCotizador && (
+            <button
+              onClick={onOpenCotizador}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                marginTop: '1.25rem',
+                padding: '0.75rem 1.5rem',
+                backgroundColor: '#1E3A8A',
+                color: '#FFFFFF',
+                borderRadius: '10px',
+                border: 'none',
+                fontWeight: 700,
+                fontSize: '0.9rem',
+                cursor: 'pointer',
+                boxShadow: '0 4px 14px rgba(30, 58, 138, 0.25)',
+              }}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="8" y1="13" x2="16" y2="13"></line>
+                <line x1="8" y1="17" x2="16" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+              Generar Cotización Oficial en Excel (.xlsx)
+            </button>
+          )}
         </div>
 
         <div className="srv-elec-grid">
@@ -164,10 +223,35 @@ const ServiceElectricidad: React.FC = () => {
         <p style={{ color: '#FDE68A', marginBottom: '2rem', fontSize: '1rem', maxWidth: '500px', margin: '0 auto 2rem', lineHeight: 1.7 }}>
           Atendemos urgencias eléctricas. Contáctanos y enviamos un técnico lo antes posible.
         </p>
-        <Button variant="primary" customStyles={{ padding: '0.9rem 2.5rem', fontSize: '1rem' }}
-          onClick={() => { window.location.hash = '#contacto'; }}>
-          Contactar ahora
-        </Button>
+        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <Button variant="primary" customStyles={{ padding: '0.9rem 2.5rem', fontSize: '1rem' }}
+            onClick={() => { window.location.hash = '#contacto'; }}>
+            Contactar ahora
+          </Button>
+          {onOpenCotizador && (
+            <button
+              onClick={onOpenCotizador}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                padding: '0.9rem 2rem',
+                fontSize: '1rem',
+                fontWeight: 700,
+                backgroundColor: '#FFFFFF',
+                color: '#78350F',
+                borderRadius: '8px',
+                border: 'none',
+                cursor: 'pointer',
+              }}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#78350F" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+              </svg>
+              Cotizar Trabajo
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

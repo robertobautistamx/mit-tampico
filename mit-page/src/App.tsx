@@ -13,7 +13,11 @@ import PoliticaPrivacidad from './pages/privacidad/PoliticaPrivacidad';
 
 import WhyChooseUs from './components/whychooseus/WhyChooseUs';
 
+import CotizadorElectricidadModal from './components/cotizador/CotizadorElectricidadModal';
+import FaqChatbot from './components/chatbot/FaqChatbot';
+
 function App() {
+  const [isCotizadorOpen, setIsCotizadorOpen] = useState(false);
   const [hash, setHash] = useState(() => {
     const currentHash = window.location.hash;
     if (!currentHash || currentHash === '#inicio') {
@@ -90,7 +94,7 @@ function App() {
     if (isAboutFull) return <About isFull={true} />;
     if (isServRefrig) return <ServiceRefrigeracion />;
     if (isServSistemas) return <ServiceSistemas />;
-    if (isServElec) return <ServiceElectricidad />;
+    if (isServElec) return <ServiceElectricidad onOpenCotizador={() => setIsCotizadorOpen(true)} />;
     if (isPrivacidad) return <PoliticaPrivacidad />;
     return null;
   };
@@ -165,6 +169,15 @@ function App() {
         </div>
       )}
       <Footer />
+
+      {/* Modal Cotizador de Electricidad */}
+      <CotizadorElectricidadModal
+        isOpen={isCotizadorOpen}
+        onClose={() => setIsCotizadorOpen(false)}
+      />
+
+      {/* Chatbot de Preguntas Frecuentes */}
+      <FaqChatbot onOpenCotizador={() => setIsCotizadorOpen(true)} />
     </div>
   );
 }

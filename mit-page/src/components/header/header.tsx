@@ -130,7 +130,7 @@ const Header: React.FC = () => {
 
         {/* LOGO */}
         <a href="#inicio" style={styles.logoContainer} onClick={(e) => handleNavClick(e, 'inicio')}>
-          <img src="/Logo-PNG.png" alt="Logo MIT Tampico" style={{ height: '42px', width: 'auto', objectFit: 'contain' }} />
+          <img src="/Logo-Transparente-Illustrator.png" alt="Logo MIT Tampico" style={{ height: '42px', width: 'auto', objectFit: 'contain' }} />
           <span style={styles.logoText}>
             <span style={{ color: '#3B82F6', fontWeight: 800 }}>MIT</span>{' '}
             <span style={{ color: '#F8FAFC', fontWeight: 500 }}>TAMPICO</span>
